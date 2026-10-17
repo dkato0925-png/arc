@@ -43,7 +43,94 @@
       color: #04101c; font-size: 16px; font-weight: 700;
     }
     footer { text-align: center; color: #7189a4; font-size: 12px; padding: 24px; }
-  </style>
+    
+/* ARC JARVIS VISUAL UPGRADE */
+body {
+  background:
+    radial-gradient(ellipse at 50% 20%, #12365a 0%, transparent 55%),
+    linear-gradient(180deg, #030812, #071321 60%, #02050b);
+  background-attachment: fixed;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7deaff;
+  text-shadow: 0 0 12px #19cfff88;
+  border-bottom: 1px solid #27cfff55;
+  background: #06101bcc;
+}
+.core {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border: 2px solid #55eaff;
+  box-shadow: 0 0 18px #16cfff88,
+    0 0 45px #168bd844,
+    inset 0 0 30px #168bd855;
+  background: radial-gradient(circle, #123d60 0%, #06101e 70%);
+  animation: arcPulse 3s ease-in-out infinite;
+}
+.core::before,
+.core::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.core::before {
+  inset: -10px;
+  border: 1px dashed #54dfff99;
+  animation: arcRotate 12s linear infinite;
+}
+.core::after {
+  inset: 8px;
+  border: 1px solid #54dfff66;
+  box-shadow: inset 0 0 18px #22ccff55;
+}
+h1 {
+  color: #e5faff;
+  text-shadow: 0 0 18px #35cfff66;
+}
+.status {
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #22cfff77;
+}
+#chat {
+  border-color: #28cfff66;
+  background: linear-gradient(145deg, #0a1a2b, #050b14);
+  box-shadow: 0 0 22px #087ab522,
+    inset 0 0 20px #087ab511;
+}
+textarea {
+  border-color: #35cfff88;
+  background: #071321;
+  outline: none;
+}
+textarea:focus {
+  border-color: #5deaff;
+  box-shadow: 0 0 16px #22cfff44;
+}
+button {
+  background: linear-gradient(100deg, #43cfff, #83f4ff);
+  box-shadow: 0 0 18px #25cfff44;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:active {
+  transform: scale(0.98);
+}
+footer {
+  letter-spacing: 3px;
+}
+@keyframes arcPulse {
+  0%, 100% { box-shadow: 0 0 18px #16cfff88, 0 0 45px #168bd844, inset 0 0 30px #168bd855; }
+  50% { box-shadow: 0 0 28px #16cfffbb, 0 0 65px #168bd866, inset 0 0 40px #168bd877; }
+}
+@keyframes arcRotate {
+  to { transform: rotate(360deg); }
+}
+
+ </style>
 </head>
 <body>
   <header>ARC</header>
