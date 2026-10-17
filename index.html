@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070b14">
-  <title>ARC</title>
+  <title>ORION</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -44,7 +44,7 @@
     }
     footer { text-align: center; color: #7189a4; font-size: 12px; padding: 24px; }
     
-/* ARC JARVIS VISUAL UPGRADE */
+/* ORION JARVIS VISUAL UPGRADE */
 body {
   background:
     radial-gradient(ellipse at 50% 20%, #12365a 0%, transparent 55%),
@@ -130,7 +130,7 @@ footer {
   to { transform: rotate(360deg); }
 }
     
-/* ARC HUD UPGRADE */
+/* ORION HUD UPGRADE */
 main {
   position: relative;
 }
@@ -187,17 +187,17 @@ header::after {
  </style>
 </head>
 <body>
-  <header>ARC</header>
+  <header>ORION</header>
   <main>
-    <div class="core">ARC</div>
+    <div class="core">ORION</div>
     <h1>おかえり。</h1>
     <p class="status">PERSONAL AI INTERFACE · ONLINE</p>
-    <div id="chat">ARC：起動しました。
+    <div id="chat">ORION：起動しました。
 ここから、君専用のAIを作っていこう。</div>
-    <textarea id="message" rows="3" placeholder="ARCにメッセージを入力…"></textarea>
+    <textarea id="message" rows="3" placeholder="ORIONにメッセージを入力…"></textarea>
     <button onclick="sendMessage()">送信</button>
   </main>
-  <footer>ARC · PERSONAL ASSISTANT</footer>
+  <footer>ORION · PERSONAL ASSISTANT</footer>
   <script>
     function sendMessage() {
       const input = document.getElementById('message');
@@ -205,7 +205,7 @@ header::after {
       const value = input.value.trim();
       if (!value) return;
       chat.textContent += '\n\n君：' + value +
-        '\n\nARC：メッセージを受け取ったよ。AI機能はこれから接続するね。';
+        '\n\n：ORIONメッセージを受け取ったよ。AI機能はこれから接続するね。';
       input.value = '';
     }
   </script>
