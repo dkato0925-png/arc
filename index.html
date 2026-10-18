@@ -2,322 +2,164 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070b14">
-  <meta name="description" content="Your personal AI interface, NEXOR.">
-  <title>NEXOR</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    :root {
-      color-scheme: dark;
-      --cyan: #55eaff;
-      --blue: #168bd8;
-      --panel: #071321;
-      --border: #28cfff66;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: #e8f4ff;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background:
-        radial-gradient(ellipse at 50% 15%, #12365a 0%, transparent 55%),
-        linear-gradient(180deg, #030812, #071321 60%, #02050b);
-      background-attachment: fixed;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 22px 20px;
-      color: #7deaff;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 5px;
-      text-shadow: 0 0 12px #19cfff88;
-      border-bottom: 1px solid var(--border);
-      background: #06101bcc;
-    }
-
-    header::after {
-      content: "AI SYSTEM";
-      padding: 6px 9px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 10px;
-      letter-spacing: 2px;
-      white-space: nowrap;
-    }
-
-    main {
-      position: relative;
-      width: 100%;
-      max-width: 680px;
-      margin: auto;
-      padding: 30px 18px;
-    }
-
-    .system-label {
-      margin: 0;
-      color: var(--cyan);
-      text-align: center;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-shadow: 0 0 10px #22cfff88;
-    }
-
-    .core {
-      position: relative;
-      isolation: isolate;
-      display: grid;
-      place-items: center;
-      width: 140px;
-      height: 140px;
-      margin: 38px auto 30px;
-      border: 2px solid var(--cyan);
-      border-radius: 50%;
-      color: #79eaff;
-      font-size: 25px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      background: radial-gradient(circle, #123d60 0%, #06101e 70%);
-      box-shadow:
-        0 0 18px #16cfff88,
-        0 0 45px #168bd844,
-        inset 0 0 30px #168bd855;
-      animation: corePulse 3s ease-in-out infinite;
-    }
-
-    .core::before,
-    .core::after {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .core::before {
-      inset: -11px;
-      border: 1px dashed #54dfff99;
-      animation: coreRotate 12s linear infinite;
-    }
-
-    .core::after {
-      inset: 8px;
-      border: 1px solid #54dfff66;
-      box-shadow: inset 0 0 18px #22ccff55;
-    }
-
-    h1 {
-      margin: 18px 0 10px;
-      color: #e5faff;
-      text-align: center;
-      font-size: 27px;
-      text-shadow: 0 0 18px #35cfff66;
-    }
-
-    .status {
-      color: #75dfff;
-      text-align: center;
-      font-size: 12px;
-      letter-spacing: 2px;
-    }
-
-    #chat {
-      min-height: 170px;
-      margin-top: 28px;
-      padding: 16px;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-      line-height: 1.8;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: linear-gradient(145deg, #0a1a2b, #050b14);
-      box-shadow:
-        0 0 22px #087ab522,
-        inset 0 0 20px #087ab511;
-    }
-
-    .chat-label {
-      display: block;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      color: var(--cyan);
-      font-size: 10px;
-      letter-spacing: 2px;
-      border-bottom: 1px solid #2bd8ff44;
-    }
-
-    textarea {
-      display: block;
-      width: 100%;
-      min-height: 90px;
-      margin-top: 14px;
-      padding: 14px;
-      color: white;
-      background: #071321;
-      border: 1px solid #35cfff88;
-      border-radius: 12px;
-      font: inherit;
-      resize: vertical;
-      outline: none;
-    }
-
-    textarea::placeholder {
-      color: #7295b4;
-    }
-
-    textarea:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 16px #22cfff44;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 10px;
-      padding: 14px;
-      color: #04101c;
-      background: linear-gradient(100deg, #43cfff, #83f4ff);
-      border: 0;
-      border-radius: 12px;
-      box-shadow: 0 0 18px #25cfff44;
-      font: inherit;
-      font-weight: 700;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    #notice {
-      min-height: 1.5em;
-      color: #75dfff;
-      font-size: 12px;
-    }
-
-    footer {
-      padding: 24px;
-      color: #7189a4;
-      text-align: center;
-      font-size: 12px;
-      letter-spacing: 3px;
-    }
-
-    @keyframes corePulse {
-      0%, 100% {
-        box-shadow:
-          0 0 18px #16cfff88,
-          0 0 45px #168bd844,
-          inset 0 0 30px #168bd855;
-      }
-      50% {
-        box-shadow:
-          0 0 28px #16cfffbb,
-          0 0 65px #168bd866,
-          inset 0 0 40px #168bd877;
-      }
-    }
-
-    @keyframes coreRotate {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @media (min-width: 600px) {
-      main {
-        padding-top: 40px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#030914">
+<title>NEXOR // COMMAND CENTER</title>
+<style>
+:root{color-scheme:dark;--cyan:#58eaff;--line:#35dfff55;--muted:#729ab9}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:#dff8ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:radial-gradient(ellipse at 50% 35%,#10365a 0%,transparent 45%),radial-gradient(ellipse at 50% 100%,#071c38,transparent 60%),#020711;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.15;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#54dfff12 4px)}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line);background:#030b17dd;box-shadow:0 4px 30px #00bfff12}
+.brand{font-size:21px;font-weight:800;letter-spacing:5px;color:var(--cyan);text-shadow:0 0 16px #26cfff99}
+.top-status{color:#70ffc5;font-size:10px;letter-spacing:1px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#57ffc3;box-shadow:0 0 10px #57ffc3;margin-right:6px}
+main{width:min(1250px,100%);padding:22px 15px 35px;margin:auto}
+.eyebrow{text-align:center;color:var(--cyan);font-size:10px;letter-spacing:3px;margin:0 0 20px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.panel{position:relative;min-width:0;padding:17px;border:1px solid var(--line);background:linear-gradient(145deg,#0a2036dd,#030b17ed);box-shadow:inset 0 0 25px #168bd811,0 0 18px #00bfff0a;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.panel-title{color:var(--cyan);font-size:10px;letter-spacing:2px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.metric{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #55dfff18;font-size:12px}
+.metric:last-child{border-bottom:0}
+.value{color:var(--cyan);text-align:right}
+.good{color:#65ffc4}
+.muted{color:var(--muted);font-size:11px;line-height:1.7}
+.core-area{text-align:center;padding:16px 0 22px}
+.core{position:relative;width:154px;height:154px;display:grid;place-items:center;margin:28px auto 30px;border:2px solid var(--cyan);border-radius:50%;background:radial-gradient(circle,#1b719b 0%,#092342 43%,#030b17 72%);box-shadow:0 0 18px #31dfff99,0 0 65px #168bd855,inset 0 0 32px #35dfff55;animation:pulse 3s ease-in-out infinite}
+.core:before,.core:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.core:before{inset:-12px;border:1px dashed #58eaffaa;animation:rotate 18s linear infinite}
+.core:after{inset:12px;border:1px solid #58eaff77;box-shadow:inset 0 0 22px #58eaff55}
+.core span{font-size:24px;font-weight:700;letter-spacing:3px;text-shadow:0 0 18px var(--cyan)}
+h1{font-size:24px;margin:0 0 8px;letter-spacing:2px}
+.subtitle{color:var(--cyan);font-size:10px;letter-spacing:2px}
+.visualizer{display:flex;justify-content:center;align-items:center;gap:4px;height:32px;margin:18px 0}
+.visualizer i{display:block;width:3px;height:9px;border-radius:5px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:wave 1s ease-in-out infinite alternate}
+.visualizer i:nth-child(3n){animation-delay:-.7s}
+.visualizer i:nth-child(2n){animation-delay:-.3s}
+.log{padding:12px;min-height:100px;max-height:220px;overflow-y:auto;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.8;background:#020813aa;border:1px solid #35dfff30}
+.log-label{display:block;color:var(--cyan);font-size:9px;letter-spacing:2px;margin-bottom:8px}
+textarea{display:block;width:100%;min-height:76px;resize:vertical;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:4px;background:#020a15;color:white;font:inherit;font-size:13px;outline:none}
+textarea:focus{border-color:var(--cyan)}
+button{cursor:pointer;width:100%;margin-top:9px;padding:12px;color:#03101a;background:linear-gradient(100deg,#38cfff,#8df5ff);border:0;font:inherit;font-size:12px;font-weight:800;letter-spacing:2px}
+button:active{transform:scale(.99)}
+.secondary{color:var(--cyan);background:#0a2036;border:1px solid var(--line)}
+.data-bar{height:4px;background:#15324a;margin-top:8px;overflow:hidden}
+.data-bar span{display:block;height:100%;width:78%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.data-bar.cpu span{width:34%}
+.data-bar.mem span{width:61%}
+.notice{min-height:18px;color:var(--cyan);font-size:11px;margin-top:9px}
+footer{text-align:center;padding:20px;color:#547b98;font-size:9px;letter-spacing:3px}
+@keyframes rotate{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{filter:brightness(.9)}50%{filter:brightness(1.3)}}
+@keyframes wave{from{height:5px}to{height:27px}}
+@media(min-width:760px){main{padding:30px 24px 45px}.layout{grid-template-columns:minmax(190px,1fr) minmax(260px,1.4fr) minmax(190px,1fr);gap:16px;align-items:stretch}.core-area{padding:25px 0}.core{width:174px;height:174px}.panel{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
 </head>
-
 <body>
-  <header>NEXOR</header>
+<header>
+  <div class="brand">NEXOR</div>
+  <div class="top-status"><span class="dot"></span>SYSTEM ONLINE</div>
+</header>
+<main>
+  <p class="eyebrow">NEXOR INTELLIGENCE // COMMAND CENTER</p>
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-title">01 // SYSTEM STATUS</div>
+      <div class="metric"><span>CORE SYSTEM</span><span class="value good">ONLINE</span></div>
+      <div class="metric"><span>INTERFACE</span><span class="value good">ACTIVE</span></div>
+      <div class="metric"><span>AI CONNECTION</span><span class="value">STANDBY</span></div>
+      <div class="metric"><span>SECURITY</span><span class="value good">LOCAL UI</span></div>
+      <div class="metric"><span>VERSION</span><span class="value">NXR-02</span></div>
+      <div class="panel-title" style="margin-top:24px">02 // DATA MONITOR</div>
+      <div class="muted">PROCESSING LOAD</div>
+      <div class="data-bar"><span></span></div>
+      <div class="muted" style="margin-top:14px">CPU SIMULATION</div>
+      <div class="data-bar cpu"><span></span></div>
+      <div class="muted" style="margin-top:14px">MEMORY SIMULATION</div>
+      <div class="data-bar mem"><span></span></div>
+      <p class="muted">※ メーターは演出用。実際の端末状態ではないよ。</p>
+    </section>
 
-  <main>
-    <p class="system-label">SYSTEM ONLINE // NEXOR-01</p>
+    <section class="panel core-area">
+      <div class="panel-title">CENTRAL INTELLIGENCE</div>
+      <p class="subtitle">REACTOR CORE // 001</p>
+      <div class="core"><span>NEXOR</span></div>
+      <h1>おかえり。</h1>
+      <div class="subtitle">YOUR PERSONAL AI INTERFACE</div>
+      <div class="visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="log" id="chat" role="log" aria-live="polite"><span class="log-label">LIVE COMMUNICATION</span>NEXOR：システム起動完了。
+司令室へようこそ。
+AIエンジンは未接続です。</div>
+      <form id="messageForm">
+        <textarea id="message" maxlength="2000" placeholder="NEXORに指示を入力..." aria-label="メッセージ"></textarea>
+        <button type="submit">TRANSMIT // 送信</button>
+        <button type="button" class="secondary" id="clearBtn">CLEAR LOG // ログ消去</button>
+      </form>
+      <p class="notice" id="notice" role="status"></p>
+    </section>
 
-    <div class="core" aria-label="NEXOR core">NEXOR</div>
+    <section class="panel">
+      <div class="panel-title">03 // QUICK ACCESS</div>
+      <div class="metric"><span>VOICE MODULE</span><span class="value">STANDBY</span></div>
+      <p class="muted">音声機能は今後のアップデートで追加する予定。</p>
+      <div class="metric"><span>NETWORK</span><span class="value good">INTERFACE READY</span></div>
+      <p class="muted">この表示は画面の状態であり、外部ネットワークの実測結果ではないよ。</p>
+      <div class="panel-title" style="margin-top:24px">04 // MISSION CONTROL</div>
+      <p class="muted">NEXOR COMMAND CENTER</p>
+      <button type="button" id="statusBtn">RUN DIAGNOSTICS</button>
+      <p class="notice" id="diagnostic" role="status"></p>
+      <div class="metric"><span>BUILD</span><span class="value">2026.01</span></div>
+      <div class="metric"><span>MODE</span><span class="value">HOLOGRAPHIC UI</span></div>
+    </section>
+  </div>
+</main>
+<footer>NEXOR · PERSONAL COMMAND CENTER · NXR-02</footer>
+<script>
+const form=document.getElementById("messageForm");
+const input=document.getElementById("message");
+const chat=document.getElementById("chat");
+const notice=document.getElementById("notice");
+const clearBtn=document.getElementById("clearBtn");
+const statusBtn=document.getElementById("statusBtn");
+const diagnostic=document.getElementById("diagnostic");
 
-    <h1>おかえり。</h1>
-    <p class="status">PERSONAL AI INTERFACE · ONLINE</p>
-
-    <div id="chat" role="log" aria-live="polite">
-      <span class="chat-label">LIVE INTERFACE</span>NEXOR：起動しました。
-ここから、君専用のAIを作っていこう。
-    </div>
-
-    <form id="messageForm">
-      <textarea
-        id="message"
-        rows="3"
-        maxlength="2000"
-        placeholder="NEXORにメッセージを入力…"
-        aria-label="NEXORへのメッセージ"
-      ></textarea>
-      <button type="submit">送信</button>
-    </form>
-
-    <p id="notice" role="status"></p>
-  </main>
-
-  <footer>NEXOR · PERSONAL ASSISTANT</footer>
-
-  <script>
-    const form = document.getElementById("messageForm");
-    const input = document.getElementById("message");
-    const chat = document.getElementById("chat");
-    const notice = document.getElementById("notice");
-
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const value = input.value.trim();
-
-      if (!value) {
-        notice.textContent = "メッセージを入力してね。";
-        input.focus();
-        return;
-      }
-
-      chat.appendChild(document.createElement("br"));
-      chat.appendChild(document.createElement("br"));
-      chat.appendChild(document.createTextNode("君：" + value));
-
-      chat.appendChild(document.createElement("br"));
-      chat.appendChild(document.createElement("br"));
-      chat.appendChild(
-        document.createTextNode(
-          "NEXOR：メッセージを受け取ったよ。AI機能はこれから接続するね。"
-        )
-      );
-
-      input.value = "";
-      notice.textContent = "メッセージを受け取ったよ。";
-    });
-  </script>
+function addLine(label,text){
+  const br=document.createElement("br");
+  const line=document.createElement("div");
+  line.style.marginTop="8px";
+  const name=document.createElement("strong");
+  name.style.color="#58eaff";
+  name.textContent=label;
+  line.append(name,document.createTextNode(text));
+  chat.append(br,line);
+  chat.scrollTop=chat.scrollHeight;
+}
+form.addEventListener("submit",function(event){
+  event.preventDefault();
+  const value=input.value.trim();
+  if(!value){
+    notice.textContent="メッセージを入力してね。";
+    input.focus();
+    return;
+  }
+  addLine("YOU // "," "+value);
+  addLine("NEXOR // ","メッセージを受け取ったよ。AI機能はまだ未接続だよ。");
+  input.value="";
+  notice.textContent="メッセージを受信しました。";
+});
+clearBtn.addEventListener("click",function(){
+  chat.replaceChildren();
+  const label=document.createElement("span");
+  label.className="log-label";
+  label.textContent="LIVE COMMUNICATION";
+  chat.append(label,document.createTextNode("ログを消去しました。"));
+  notice.textContent="ログをクリアしました。";
+});
+statusBtn.addEventListener("click",function(){
+  diagnostic.textContent="診断完了：インターフェースは正常に動作中。";
+});
+</script>
 </body>
 </html>
