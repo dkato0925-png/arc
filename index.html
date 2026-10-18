@@ -197,7 +197,431 @@ header::after {
     <textarea id="message" rows="3" placeholder="NEXORにメッセージを入力…"></textarea>
     <button onclick="sendMessage()">送信</button>
   </main>
+  <footer>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <title>NEXOR</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      background: radial-gradient(circle at top, #132746, #070b14 55%);
+      color: #e8f4ff; font-family: -apple-system, sans-serif;
+    }
+    header {
+      padding: 24px 20px; border-bottom: 1px solid #203650;
+      letter-spacing: 5px; font-size: 22px; font-weight: 700;
+    }
+    main { max-width: 680px; margin: auto; padding: 24px 18px; }
+    .core {
+      width: 112px; height: 112px; border-radius: 50%;
+      margin: 30px auto; border: 2px solid #4de0ff;
+      box-shadow: 0 0 25px #168bd866, inset 0 0 25px #168bd855;
+      display: grid; place-items: center; color: #79eaff;
+      font-size: 30px; letter-spacing: 2px;
+    }
+    h1 { text-align: center; font-size: 27px; }
+    .status { text-align: center; color: #75dfff; font-size: 13px; }
+    #chat {
+      margin-top: 28px; min-height: 170px; padding: 16px;
+      border: 1px solid #203650; border-radius: 16px;
+      background: #0b1321; line-height: 1.7; white-space: pre-wrap;
+    }
+    textarea {
+      width: 100%; margin-top: 14px; padding: 14px;
+      color: white; background: #101d30; border: 1px solid #315477;
+      border-radius: 12px; font: inherit; resize: vertical;
+    }
+    button {
+      width: 100%; margin-top: 10px; padding: 14px;
+      border: 0; border-radius: 12px; background: #43cfff;
+      color: #04101c; font-size: 16px; font-weight: 700;
+    }
+    footer { text-align: center; color: #7189a4; font-size: 12px; padding: 24px; }
+    
+/* ORION JARVIS VISUAL UPGRADE */
+body {
+  background:
+    radial-gradient(ellipse at 50% 20%, #12365a 0%, transparent 55%),
+    linear-gradient(180deg, #030812, #071321 60%, #02050b);
+  background-attachment: fixed;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7deaff;
+  text-shadow: 0 0 12px #19cfff88;
+  border-bottom: 1px solid #27cfff55;
+  background: #06101bcc;
+}
+.core {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border: 2px solid #55eaff;
+  box-shadow: 0 0 18px #16cfff88,
+    0 0 45px #168bd844,
+    inset 0 0 30px #168bd855;
+  background: radial-gradient(circle, #123d60 0%, #06101e 70%);
+  animation: arcPulse 3s ease-in-out infinite;
+}
+.core::before,
+.core::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.core::before {
+  inset: -10px;
+  border: 1px dashed #54dfff99;
+  animation: arcRotate 12s linear infinite;
+}
+.core::after {
+  inset: 8px;
+  border: 1px solid #54dfff66;
+  box-shadow: inset 0 0 18px #22ccff55;
+}
+h1 {
+  color: #e5faff;
+  text-shadow: 0 0 18px #35cfff66;
+}
+.status {
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #22cfff77;
+}
+#chat {
+  border-color: #28cfff66;
+  background: linear-gradient(145deg, #0a1a2b, #050b14);
+  box-shadow: 0 0 22px #087ab522,
+    inset 0 0 20px #087ab511;
+}
+textarea {
+  border-color: #35cfff88;
+  background: #071321;
+  outline: none;
+}
+textarea:focus {
+  border-color: #5deaff;
+  box-shadow: 0 0 16px #22cfff44;
+}
+button {
+  background: linear-gradient(100deg, #43cfff, #83f4ff);
+  box-shadow: 0 0 18px #25cfff44;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:active {
+  transform: scale(0.98);
+}
+footer {
+  letter-spacing: 3px;
+}
+@keyframes arcPulse {
+  0%, 100% { box-shadow: 0 0 18px #16cfff88, 0 0 45px #168bd844, inset 0 0 30px #168bd855; }
+  50% { box-shadow: 0 0 28px #16cfffbb, 0 0 65px #168bd866, inset 0 0 40px #168bd877; }
+}
+@keyframes arcRotate {
+  to { transform: rotate(360deg); }
+}
+    
+/* ORION HUD UPGRADE */
+main {
+  position: relative;
+}
+main::before {
+  content: "SYSTEM ONLINE  //  NEXOR-01";
+  display: block;
+  text-align: center;
+  color: #55dfff;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin: 0 0 18px;
+  text-shadow: 0 0 10px #22cfff88;
+}
+.core {
+  isolation: isolate;
+}
+#chat {
+  position: relative;
+  overflow: hidden;
+}
+#chat::before {
+  content: "LIVE INTERFACE";
+  display: block;
+  color: #55dfff;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #2bd8ff44;
+}
+textarea::placeholder {
+  color: #7295b4;
+}
+button {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+header::after {
+  content: "AI SYSTEM";
+  float: right;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #55dfff;
+  border: 1px solid #28cfff66;
+  border-radius: 20px;
+  padding: 6px 9px;
+}
+@media (min-width: 600px) {
+  main {
+    padding-top: 36px;
+  }
+}
+
+ </style>
+</head>
+<body>
+  <header>NEXOR</header>
+  <main>
+    <div class="core">NEXOR</div>
+    <h1>おかえり。</h1>
+    <p class="status">PERSONAL AI INTERFACE · ONLINE</p>
+    <div id="chat">NEXOR：起動しました。
+ここから、君専用のAIを作っていこう。</div>
+    <textarea id="message" rows="3" placeholder="NEXORにメッセージを入力…"></textarea>
+    <button onclick="sendMessage()">送信</button>
+  </main>
   <footer>ORION · PERSONAL ASSISTANT</footer>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('message');
+      const chat = document.getElementById('chat');
+      const value = input.value.trim();
+      if (!value) return;
+      chat.textContent += '\n\n君：' + value +
+        '\n\n：メッセージを受け取ったよ。AI機能はこれから接続するね。';
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <title>NEXOR</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      background: radial-gradient(circle at top, #132746, #070b14 55%);
+      color: #e8f4ff; font-family: -apple-system, sans-serif;
+    }
+    header {
+      padding: 24px 20px; border-bottom: 1px solid #203650;
+      letter-spacing: 5px; font-size: 22px; font-weight: 700;
+    }
+    main { max-width: 680px; margin: auto; padding: 24px 18px; }
+    .core {
+      width: 112px; height: 112px; border-radius: 50%;
+      margin: 30px auto; border: 2px solid #4de0ff;
+      box-shadow: 0 0 25px #168bd866, inset 0 0 25px #168bd855;
+      display: grid; place-items: center; color: #79eaff;
+      font-size: 30px; letter-spacing: 2px;
+    }
+    h1 { text-align: center; font-size: 27px; }
+    .status { text-align: center; color: #75dfff; font-size: 13px; }
+    #chat {
+      margin-top: 28px; min-height: 170px; padding: 16px;
+      border: 1px solid #203650; border-radius: 16px;
+      background: #0b1321; line-height: 1.7; white-space: pre-wrap;
+    }
+    textarea {
+      width: 100%; margin-top: 14px; padding: 14px;
+      color: white; background: #101d30; border: 1px solid #315477;
+      border-radius: 12px; font: inherit; resize: vertical;
+    }
+    button {
+      width: 100%; margin-top: 10px; padding: 14px;
+      border: 0; border-radius: 12px; background: #43cfff;
+      color: #04101c; font-size: 16px; font-weight: 700;
+    }
+    footer { text-align: center; color: #7189a4; font-size: 12px; padding: 24px; }
+    
+/* ORION JARVIS VISUAL UPGRADE */
+body {
+  background:
+    radial-gradient(ellipse at 50% 20%, #12365a 0%, transparent 55%),
+    linear-gradient(180deg, #030812, #071321 60%, #02050b);
+  background-attachment: fixed;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7deaff;
+  text-shadow: 0 0 12px #19cfff88;
+  border-bottom: 1px solid #27cfff55;
+  background: #06101bcc;
+}
+.core {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border: 2px solid #55eaff;
+  box-shadow: 0 0 18px #16cfff88,
+    0 0 45px #168bd844,
+    inset 0 0 30px #168bd855;
+  background: radial-gradient(circle, #123d60 0%, #06101e 70%);
+  animation: arcPulse 3s ease-in-out infinite;
+}
+.core::before,
+.core::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.core::before {
+  inset: -10px;
+  border: 1px dashed #54dfff99;
+  animation: arcRotate 12s linear infinite;
+}
+.core::after {
+  inset: 8px;
+  border: 1px solid #54dfff66;
+  box-shadow: inset 0 0 18px #22ccff55;
+}
+h1 {
+  color: #e5faff;
+  text-shadow: 0 0 18px #35cfff66;
+}
+.status {
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #22cfff77;
+}
+#chat {
+  border-color: #28cfff66;
+  background: linear-gradient(145deg, #0a1a2b, #050b14);
+  box-shadow: 0 0 22px #087ab522,
+    inset 0 0 20px #087ab511;
+}
+textarea {
+  border-color: #35cfff88;
+  background: #071321;
+  outline: none;
+}
+textarea:focus {
+  border-color: #5deaff;
+  box-shadow: 0 0 16px #22cfff44;
+}
+button {
+  background: linear-gradient(100deg, #43cfff, #83f4ff);
+  box-shadow: 0 0 18px #25cfff44;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:active {
+  transform: scale(0.98);
+}
+footer {
+  letter-spacing: 3px;
+}
+@keyframes arcPulse {
+  0%, 100% { box-shadow: 0 0 18px #16cfff88, 0 0 45px #168bd844, inset 0 0 30px #168bd855; }
+  50% { box-shadow: 0 0 28px #16cfffbb, 0 0 65px #168bd866, inset 0 0 40px #168bd877; }
+}
+@keyframes arcRotate {
+  to { transform: rotate(360deg); }
+}
+    
+/* ORION HUD UPGRADE */
+main {
+  position: relative;
+}
+main::before {
+  content: "SYSTEM ONLINE  //  NEXOR-01";
+  display: block;
+  text-align: center;
+  color: #55dfff;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin: 0 0 18px;
+  text-shadow: 0 0 10px #22cfff88;
+}
+.core {
+  isolation: isolate;
+}
+#chat {
+  position: relative;
+  overflow: hidden;
+}
+#chat::before {
+  content: "LIVE INTERFACE";
+  display: block;
+  color: #55dfff;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #2bd8ff44;
+}
+textarea::placeholder {
+  color: #7295b4;
+}
+button {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+header::after {
+  content: "AI SYSTEM";
+  float: right;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #55dfff;
+  border: 1px solid #28cfff66;
+  border-radius: 20px;
+  padding: 6px 9px;
+}
+@media (min-width: 600px) {
+  main {
+    padding-top: 36px;
+  }
+}
+
+ </style>
+</head>
+<body>
+  <header>NEXOR</header>
+  <main>
+    <div class="core">NEXOR</div>
+    <h1>おかえり。</h1>
+    <p class="status">PERSONAL AI INTERFACE · ONLINE</p>
+    <div id="chat">NEXOR：起動しました。
+ここから、君専用のAIを作っていこう。</div>
+    <textarea id="message" rows="3" placeholder="NEXORにメッセージを入力…"></textarea>
+    <button onclick="sendMessage()">送信</button>
+  </main>
+  <footer>ORION · PERSONAL ASSISTANT</footer>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('message');
+      const chat = document.getElementById('chat');
+      const value = input.value.trim();
+      if (!value) return;
+      chat.textContent += '\n\n君：' + value +
+        '\n\n：メッセージを受け取ったよ。AI機能はこれから接続するね。';
+      input.value = '';
+    }
+  </script>
+</body>
+<footer>NEXOR · PERSONAL ASSISTANT</footer>
   <script>
     function sendMessage() {
       const input = document.getElementById('message');
