@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070b14">
-  <title>ORION</title>
+  <title>NEXOR</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -135,7 +135,7 @@ main {
   position: relative;
 }
 main::before {
-  content: "SYSTEM ONLINE  //  ORION-01";
+  content: "SYSTEM ONLINE  //  NEXOR-01";
   display: block;
   text-align: center;
   color: #55dfff;
@@ -187,14 +187,14 @@ header::after {
  </style>
 </head>
 <body>
-  <header>ORION</header>
+  <header>NEXOR</header>
   <main>
-    <div class="core">ORION</div>
+    <div class="core">NEXOR</div>
     <h1>おかえり。</h1>
     <p class="status">PERSONAL AI INTERFACE · ONLINE</p>
-    <div id="chat">ORION：起動しました。
+    <div id="chat">NEXOR：起動しました。
 ここから、君専用のAIを作っていこう。</div>
-    <textarea id="message" rows="3" placeholder="ORIONにメッセージを入力…"></textarea>
+    <textarea id="message" rows="3" placeholder="NEXORにメッセージを入力…"></textarea>
     <button onclick="sendMessage()">送信</button>
   </main>
   <footer>ORION · PERSONAL ASSISTANT</footer>
@@ -205,7 +205,7 @@ header::after {
       const value = input.value.trim();
       if (!value) return;
       chat.textContent += '\n\n君：' + value +
-        '\n\n：ORIONメッセージを受け取ったよ。AI機能はこれから接続するね。';
+        '\n\n：メッセージを受け取ったよ。AI機能はこれから接続するね。';
       input.value = '';
     }
   </script>
