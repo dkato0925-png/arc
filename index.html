@@ -1,503 +1,153 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050b16">
 <title>NEXOR // LIFE CONTROL</title>
 <style>
-:root {
-  color-scheme: dark;
-  --bg:#050b16;
-  --panel:rgba(13,29,50,.78);
-  --line:rgba(87,210,255,.24);
-  --cyan:#55e4ff;
-  --blue:#568bff;
-  --text:#eaf8ff;
-  --muted:#89a8c3;
-  --green:#62f5c2;
-  --orange:#ffc77d;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:
-  radial-gradient(ellipse at 50% -15%,#173b66 0%,transparent 48%),
-  radial-gradient(ellipse at 100% 40%,#10264b 0%,transparent 42%),var(--bg);
-  color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  min-height:100vh;letter-spacing:.2px
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{
-  outline:2px solid var(--cyan);outline-offset:3px
-}
-header{
-  padding:22px 18px 12px;max-width:1050px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center;gap:12px
-}
-.brand{font-size:20px;font-weight:850;letter-spacing:4px}
-.brand span{color:var(--cyan)}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:5px}
-.status{font-size:11px;color:var(--green);white-space:nowrap}
-.status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:7px;box-shadow:0 0 12px var(--green)}
-main{max-width:1050px;margin:auto;padding:8px 14px 48px}
-.panel{
-  position:relative;overflow:hidden;border:1px solid var(--line);
-  border-radius:19px;padding:18px;
-  background:linear-gradient(145deg,rgba(20,48,77,.83),rgba(6,15,29,.92));
-  box-shadow:inset 0 1px 0 #ffffff0c,0 12px 32px #0005,0 0 24px #2e9cff08;
-}
-.panel:before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg,#68eaff08,transparent 35%,#4b83ff08);
-}
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
-.core-wrap{display:grid;place-items:center;min-height:220px;position:relative}
-.core{
-  width:155px;height:155px;border-radius:50%;position:relative;display:grid;place-items:center;
-  background:radial-gradient(circle,#2a9fcf35 0%,#0d2446 43%,#081225 67%);
-  border:1px solid #55e4ff8a;
-  box-shadow:0 0 25px #29caff30,inset 0 0 28px #3dd7ff28;
-}
-.core:before,.core:after{
-  content:"";position:absolute;border-radius:50%;inset:-12px;
-  border:2px solid transparent;border-top-color:var(--cyan);border-bottom-color:#568bff;
-  animation:spin 9s linear infinite;
-}
-.core:after{inset:-22px;border-width:1px;border-left-color:#568bff;border-right-color:#55e4ff;animation-direction:reverse;animation-duration:14s}
-.core-inner{text-align:center;z-index:1}
-.core-num{font-size:31px;font-weight:800;text-shadow:0 0 18px #55e4ff80}
-.core-label{font-size:9px;letter-spacing:2px;color:var(--cyan)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero h1{font-size:clamp(21px,4vw,32px);margin:0 0 8px;line-height:1.3}
-.hero p{font-size:12px;line-height:1.8;color:var(--muted);margin:0}
-.hero-stat{display:flex;gap:9px;margin-top:17px}
-.mini{flex:1;padding:12px;border:1px solid var(--line);border-radius:12px;background:#071426a8}
-.mini strong{display:block;font-size:21px;margin-bottom:4px}
-.mini small{font-size:10px;color:var(--muted)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:26px 2px 12px}
-.section-head h2{font-size:15px;letter-spacing:1px;margin:0}
-.section-head span{font-size:10px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.full{grid-column:1/-1}
-label{display:block;font-size:11px;color:var(--muted);margin:12px 0 6px}
-input,select{
-  width:100%;min-width:0;padding:12px;border-radius:10px;
-  color:var(--text);background:#06101f;border:1px solid #294766
-}
-.btn{
-  border:1px solid #54dfff70;border-radius:10px;padding:11px 13px;
-  background:linear-gradient(135deg,#123d5a,#12264b);
-  color:var(--text);font-weight:700;font-size:12px;
-  box-shadow:inset 0 1px #ffffff10,0 4px 12px #0003
-}
-.btn.primary{background:linear-gradient(135deg,#126184,#264ba0);color:white}
-.btn.danger{border-color:#ff8b8b50;background:#461c2b}
-.btn:active{transform:translateY(1px)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.metric{padding:14px 10px;border-radius:13px;background:#071426;border:1px solid var(--line)}
-.metric .label{font-size:10px;color:var(--muted)}
-.metric strong{display:block;font-size:clamp(19px,4vw,27px);margin:8px 0 4px}
-.metric small{font-size:10px;color:var(--muted)}
-.cyan{color:var(--cyan)}.green{color:var(--green)}.orange{color:var(--orange)}
-.chart{display:flex;align-items:stretch;gap:8px;height:165px;padding-top:15px}
-.bar-day{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px}
-.bar-value{font-size:9px;color:var(--muted);height:12px;white-space:nowrap}
-.bar-track{height:105px;width:100%;max-width:32px;display:flex;align-items:flex-end;border-radius:7px;background:#07101e;border:1px solid #203b57;overflow:hidden}
-.bar-fill{width:100%;min-height:3px;border-radius:6px 6px 3px 3px;background:linear-gradient(0deg,#3867f2,#55e4ff);box-shadow:0 0 15px #55e4ff40;transition:height .35s}
-.bar-day small{font-size:10px;color:var(--muted)}
-.legend{display:flex;gap:13px;font-size:10px;color:var(--muted);margin-top:10px}
-.legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}
-.record-list,.task-list{display:grid;gap:8px;margin-top:12px}
-.record,.task{
-  display:flex;align-items:center;gap:10px;padding:12px;
-  border:1px solid #23415e;border-radius:11px;background:#081629d9;
-}
-.record-main{flex:1;min-width:0}
-.record-title{font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.record-sub{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5}
-.pill{font-size:10px;color:var(--cyan);border:1px solid var(--line);padding:5px 7px;border-radius:7px;white-space:nowrap}
-.task input[type=checkbox]{width:18px;height:18px;accent-color:var(--cyan)}
-.task.done .record-title{text-decoration:line-through;color:var(--muted)}
-.empty{font-size:12px;color:var(--muted);text-align:center;padding:18px 8px}
-.timer{font-size:clamp(36px,9vw,52px);font-weight:800;letter-spacing:2px;text-align:center;margin:20px 0;text-shadow:0 0 22px #55e4ff40;font-variant-numeric:tabular-nums}
-.subject-stats{display:grid;gap:11px;margin-top:14px}
-.subject-row{display:grid;grid-template-columns:72px 1fr 45px;gap:8px;align-items:center;font-size:11px}
-.subject-track{height:8px;border-radius:8px;background:#07101e;overflow:hidden}
-.subject-fill{height:100%;background:linear-gradient(90deg,#4167ff,#55e4ff);border-radius:8px}
-footer{text-align:center;padding:20px;font-size:9px;color:#66839f;letter-spacing:2px}
-@media(min-width:720px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr 1.1fr}.core-wrap{min-height:260px}}
-@media(max-width:420px){header{padding-top:18px}.brand{font-size:17px}.panel{padding:14px}.hero{grid-template-columns:1fr}.core-wrap{min-height:190px}.core{width:130px;height:130px}.core-num{font-size:27px}.grid{gap:9px}.metrics{gap:6px}.metric{padding:11px 7px}.metric strong{font-size:19px}}
+:root{color-scheme:dark;--bg:#050b16;--panel:rgba(12,27,48,.82);--line:#284b6b;--cyan:#59e6ff;--blue:#668cff;--green:#65f2c1;--gold:#ffd18b;--text:#ecf8ff;--muted:#92abc3;--red:#ff8295}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -12%,#1b4774 0,transparent 44%),radial-gradient(ellipse at 100% 45%,#152b57 0,transparent 42%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.15px;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+header{max-width:1120px;margin:auto;padding:20px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:20px;font-weight:900;letter-spacing:4px}.brand span{color:var(--cyan)}.eyebrow{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:5px}.online{font-size:10px;color:var(--green);white-space:nowrap}.online:before{content:"";display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:7px;box-shadow:0 0 12px var(--green)}
+main{max-width:1120px;margin:auto;padding:8px 13px 40px}.panel{position:relative;overflow:hidden;border:1px solid #3e789b70;border-radius:19px;padding:17px;background:linear-gradient(145deg,rgba(19,47,76,.88),rgba(5,13,27,.94));box-shadow:inset 0 1px #ffffff10,inset 0 -1px #0008,0 14px 30px #0005,0 0 24px #32baff08;backdrop-filter:blur(14px)}.panel:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,#69eaff0b,transparent 38%,#6c8aff08)}.panel>*{position:relative}.hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:14px}.core-wrap{min-height:245px;display:grid;place-items:center;perspective:700px}.core{width:158px;height:158px;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#5ceaff25 0,#14375a 35%,#081528 68%);border:1px solid #64eaffb5;box-shadow:0 0 24px #29caff45,inset 0 0 28px #3dd7ff30;transform-style:preserve-3d;animation:float 5s ease-in-out infinite}.core:before,.core:after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid transparent;border-top-color:var(--cyan);border-bottom-color:var(--blue);animation:spin 8s linear infinite;box-shadow:0 0 13px #55e4ff18}.core:after{inset:-24px;border-width:1px;border-left-color:#6d9dff;border-right-color:#55e4ff;animation-direction:reverse;animation-duration:14s}.core-orbit{position:absolute;inset:-5px;border:1px dashed #55e4ff60;border-radius:50%;transform:rotateX(65deg) rotateZ(-20deg);animation:spin 18s linear infinite}.core-inner{text-align:center;z-index:2;text-shadow:0 0 16px #55e4ff55}.core-num{font-size:31px;font-weight:900}.core-label{font-size:9px;color:var(--cyan);letter-spacing:2px}.scan{position:absolute;inset:0;border-radius:50%;background:linear-gradient(180deg,transparent 45%,#55e4ff12 50%,transparent 55%);animation:scan 4s ease-in-out infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0) rotateX(0)}50%{transform:translateY(-5px) rotateX(3deg)}}@keyframes scan{0%,100%{opacity:.25;transform:translateY(-12px)}50%{opacity:.8;transform:translateY(12px)}}
+h1{font-size:clamp(22px,4vw,32px);line-height:1.25;margin:7px 0 9px}.muted{color:var(--muted);font-size:12px;line-height:1.7}.hero-stats{display:flex;gap:9px;margin-top:16px}.mini{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:11px;background:linear-gradient(135deg,#0b2036dd,#071322dd);box-shadow:inset 0 1px #ffffff0a}.mini strong{display:block;font-size:20px;margin-bottom:4px}.mini small{font-size:10px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:25px 2px 11px}.section-head h2{font-size:14px;letter-spacing:1px;margin:0}.section-head span{font-size:10px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.full{grid-column:1/-1}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric{border:1px solid var(--line);border-radius:13px;padding:13px 10px;background:linear-gradient(145deg,#0e2238,#071321);box-shadow:inset 0 1px #ffffff0b,0 7px 18px #0002}.metric .label{font-size:10px;color:var(--muted)}.metric strong{display:block;font-size:clamp(18px,4vw,26px);margin:8px 0 4px;overflow-wrap:anywhere}.metric small{font-size:10px;color:var(--muted)}.cyan{color:var(--cyan)}.green{color:var(--green)}.gold{color:var(--gold)}label{display:block;font-size:11px;color:var(--muted);margin:12px 0 6px}input,select,textarea{width:100%;min-width:0;padding:11px 12px;color:var(--text);background:#06101f;border:1px solid #294766;border-radius:10px}textarea{resize:vertical}.btn{border:1px solid #55dfff70;border-radius:10px;padding:10px 12px;color:var(--text);font-size:12px;font-weight:750;background:linear-gradient(135deg,#123d5a,#12264b);box-shadow:inset 0 1px #ffffff12,0 5px 12px #0003}.btn.primary{background:linear-gradient(135deg,#126184,#2a4da1);box-shadow:inset 0 1px #ffffff25,0 0 15px #308dff15}.btn.danger{border-color:#ff829555;background:linear-gradient(135deg,#4a1d30,#2b1628)}.btn:active{transform:translateY(1px)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chart{height:174px;display:flex;align-items:stretch;gap:7px;padding-top:15px}.bar-day{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px}.bar-value{font-size:9px;color:var(--muted);height:13px;white-space:nowrap}.bar-track{height:108px;width:100%;max-width:34px;display:flex;align-items:flex-end;border:1px solid #25445f;border-radius:7px;background:#06101c;overflow:hidden;box-shadow:inset 0 3px 8px #0005}.bar-fill{width:100%;min-height:2px;border-radius:5px 5px 2px 2px;box-shadow:0 0 13px #55e4ff55;transition:height .4s}.bar-day small{font-size:10px;color:var(--muted)}.legend{font-size:10px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}.subject-stats{display:grid;gap:12px;margin-top:15px}.subject-row{display:grid;grid-template-columns:65px 1fr 48px;gap:7px;align-items:center;font-size:10px}.subject-track{height:8px;background:#06101c;border-radius:9px;overflow:hidden}.subject-fill{height:100%;background:linear-gradient(90deg,#526dff,#59e6ff);border-radius:9px}.record-list,.task-list{display:grid;gap:8px;margin-top:12px}.record,.task{display:flex;align-items:center;gap:9px;padding:11px;border:1px solid #23415e;border-radius:11px;background:linear-gradient(120deg,#0a1b2e,#071322)}.record-main{flex:1;min-width:0}.record-title{font-size:12px;font-weight:750;overflow-wrap:anywhere}.record-sub{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.5;overflow-wrap:anywhere}.pill{font-size:10px;color:var(--cyan);border:1px solid var(--line);padding:5px 7px;border-radius:7px;white-space:nowrap}.task input[type=checkbox]{width:18px;height:18px;accent-color:var(--cyan)}.task.done .record-title{text-decoration:line-through;color:var(--muted)}.empty{font-size:12px;color:var(--muted);text-align:center;padding:18px 8px}.timer{font-size:clamp(34px,8vw,50px);font-weight:900;text-align:center;letter-spacing:2px;margin:20px 0;text-shadow:0 0 22px #55e4ff50;font-variant-numeric:tabular-nums}.assistant-output{padding:13px;border-radius:12px;border:1px solid #3d7291;background:linear-gradient(120deg,#0b2137,#071321);font-size:13px;line-height:1.8;white-space:pre-wrap;min-height:60px}.quick-prompts{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.small-note{font-size:10px;color:var(--muted);line-height:1.6;margin-top:10px}.search-row{display:grid;grid-template-columns:1fr auto;gap:8px}.progress-track{height:8px;background:#06101c;border-radius:9px;overflow:hidden;margin-top:8px}.progress-fill{height:100%;background:linear-gradient(90deg,#568bff,#59e6ff);border-radius:9px}.hidden{display:none!important}footer{text-align:center;padding:24px 10px;font-size:9px;color:#66839f;letter-spacing:2px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:.9fr 1.1fr}.core-wrap{min-height:270px}.hero .mini strong{font-size:23px}}@media(max-width:430px){header{padding-top:17px}.brand{font-size:17px;letter-spacing:3px}.hero{grid-template-columns:1fr}.core-wrap{min-height:205px}.core{width:135px;height:135px}.core-num{font-size:27px}.panel{padding:14px}.metrics{gap:6px}.metric{padding:10px 7px}.metric strong{font-size:18px}.grid{gap:9px}.section-head{margin-top:22px}.record .btn,.task .btn{padding:8px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <div>
-    <div class="brand">NEXOR<span> / </span>LIFE</div>
-    <div class="eyebrow">PERSONAL COMMAND SYSTEM // V3.0</div>
-  </div>
-  <div class="status">SYSTEM ONLINE</div>
-</header>
-
+<header><div><div class="brand">NEXOR<span> / </span>LIFE</div><div class="eyebrow">PERSONAL COMMAND SYSTEM // V4.0</div></div><div class="online">SYSTEM ONLINE</div></header>
 <main>
-  <section class="panel hero">
-    <div class="core-wrap">
-      <div class="core">
-        <div class="core-inner">
-          <div class="core-label">DAILY SYNC</div>
-          <div class="core-num" id="heroPercent">0%</div>
-          <div class="core-label">READINESS</div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="eyebrow">PERSONAL OVERVIEW</div>
-      <h1 id="greeting">おかえり、相棒。</h1>
-      <p id="todayText">今日のコンディションを確認しよう。</p>
-      <div class="hero-stat">
-        <div class="mini"><strong class="cyan" id="heroStudy">0分</strong><small>今日の勉強</small></div>
-        <div class="mini"><strong class="green" id="heroSleep">--</strong><small>最新の睡眠</small></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-head"><h2>01 / DAILY METRICS</h2><span id="todayDate"></span></div>
-  <section class="metrics">
-    <div class="metric"><div class="label">STUDY TIME</div><strong class="cyan" id="metricStudy">0分</strong><small>今日の学習時間</small></div>
-    <div class="metric"><div class="label">SLEEP TIME</div><strong class="green" id="metricSleep">--</strong><small>最新の睡眠記録</small></div>
-    <div class="metric"><div class="label">TASKS</div><strong class="orange" id="metricTasks">0/0</strong><small>今日の達成数</small></div>
-  </section>
-
-  <div class="section-head"><h2>02 / WEEKLY ANALYTICS</h2><span>直近7日間</span></div>
-  <div class="grid">
-    <section class="panel">
-      <div class="eyebrow">STUDY PERFORMANCE</div>
-      <h2 style="font-size:16px;margin:7px 0">勉強時間 <span class="cyan" id="weekStudy">0分</span></h2>
-      <div class="chart" id="studyChart"></div>
-      <div class="legend"><span><i style="background:#55e4ff"></i>勉強時間</span></div>
-    </section>
-    <section class="panel">
-      <div class="eyebrow">SLEEP MONITOR</div>
-      <h2 style="font-size:16px;margin:7px 0">睡眠時間 <span class="green" id="weekSleep">0時間</span></h2>
-      <div class="chart" id="sleepChart"></div>
-      <div class="legend"><span><i style="background:#62f5c2"></i>睡眠時間</span></div>
-    </section>
-    <section class="panel">
-      <div class="eyebrow">SUBJECT BREAKDOWN</div>
-      <h2 style="font-size:16px;margin:7px 0">教科別の勉強</h2>
-      <div class="subject-stats" id="subjectStats"></div>
-    </section>
-  </div>
-
-  <div class="section-head"><h2>03 / STUDY CONTROL</h2><span>FOCUS MODE</span></div>
-  <div class="grid">
-    <section class="panel">
-      <div class="eyebrow">FOCUS TIMER</div>
-      <div class="timer" id="timer">00:00:00</div>
-      <label for="studySubject">教科</label>
-      <select id="studySubject">
-        <option>英語</option><option>数学</option><option>国語</option>
-        <option>理科</option><option>社会</option><option>学校課題</option><option>その他</option>
-      </select>
-      <div class="actions">
-        <button class="btn primary" id="startTimer">開始</button>
-        <button class="btn" id="pauseTimer">一時停止</button>
-        <button class="btn" id="resetTimer">リセット</button>
-        <button class="btn" id="saveTimer">記録する</button>
-      </div>
-      <p class="record-sub" id="timerMessage">勉強を始めるときに開始を押そう。</p>
-    </section>
-
-    <section class="panel">
-      <div class="eyebrow">STUDY LOG</div>
-      <h2 style="font-size:16px">勉強記録を追加</h2>
-      <label for="manualDate">日付</label><input id="manualDate" type="date">
-      <label for="manualSubject">教科</label>
-      <select id="manualSubject">
-        <option>英語</option><option>数学</option><option>国語</option><option>理科</option><option>社会</option><option>学校課題</option><option>その他</option>
-      </select>
-      <label for="manualMinutes">勉強時間（分）</label><input id="manualMinutes" type="number" min="1" max="1440" placeholder="例：30">
-      <button class="btn primary" id="addStudy" style="width:100%;margin-top:13px">記録を追加</button>
-    </section>
-  </div>
-
-  <div class="section-head"><h2>04 / SLEEP CONTROL</h2><span>RECOVERY LOG</span></div>
-  <section class="panel">
-    <div class="grid">
-      <div><label for="sleepDate">起床日</label><input id="sleepDate" type="date"></div>
-      <div><label for="bedTime">寝た時間</label><input id="bedTime" type="time" value="23:00"></div>
-      <div><label for="wakeTime">起きた時間</label><input id="wakeTime" type="time" value="07:00"></div>
-    </div>
-    <div class="actions"><button class="btn primary" id="saveSleep">睡眠を記録</button></div>
-    <p class="record-sub" id="sleepMessage">就寝時刻と起床時刻を入力して保存。</p>
-  </section>
-
-  <div class="section-head"><h2>05 / TASK COMMAND</h2><span>MISSION CONTROL</span></div>
-  <section class="panel">
-    <div class="grid">
-      <div><label for="taskName">タスク名</label><input id="taskName" maxlength="100" placeholder="例：英語ワーク p.20"></div>
-      <div><label for="taskDate">期限・日付</label><input id="taskDate" type="date"></div>
-      <div><label for="taskSubject">教科</label>
-        <select id="taskSubject"><option>学校課題</option><option>英語</option><option>数学</option><option>国語</option><option>理科</option><option>社会</option><option>その他</option></select>
-      </div>
-    </div>
-    <button class="btn primary" id="addTask" style="width:100%;margin-top:13px">＋ タスクを追加</button>
-    <div class="task-list" id="taskList"></div>
-  </section>
-
-  <div class="section-head"><h2>06 / RECENT RECORDS</h2><span>LOCAL DATABASE</span></div>
-  <div class="grid">
-    <section class="panel"><div class="eyebrow">STUDY HISTORY</div><div class="record-list" id="studyRecords"></div></section>
-    <section class="panel"><div class="eyebrow">SLEEP HISTORY</div><div class="record-list" id="sleepRecords"></div></section>
-  </div>
-
-  <div class="section-head"><h2>07 / DATA SYSTEM</h2><span>BACKUP & RESTORE</span></div>
-  <section class="panel">
-    <p class="record-sub">記録はこのブラウザ内に保存されるよ。機種変更やブラウザのデータ消去に備えて、ときどきバックアップを保存してね。</p>
-    <div class="actions">
-      <button class="btn primary" id="exportData">バックアップを書き出す</button>
-      <button class="btn" id="importButton">バックアップを読み込む</button>
-      <button class="btn danger" id="clearData">全データを消去</button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
-    </div>
-    <p class="record-sub" id="dataMessage"></p>
-  </section>
+<section class="panel hero">
+ <div class="core-wrap"><div class="core"><div class="core-orbit"></div><div class="scan"></div><div class="core-inner"><div class="core-label">DAILY SYNC</div><div class="core-num" id="heroPercent">0%</div><div class="core-label">READINESS</div></div></div></div>
+ <div><div class="eyebrow">PERSONAL OVERVIEW</div><h1 id="greeting">おかえり、相棒。</h1><p class="muted" id="todayText">今日の進捗を確認しよう。</p><div class="hero-stats"><div class="mini"><strong class="cyan" id="heroStudy">0分</strong><small>今日の勉強</small></div><div class="mini"><strong class="green" id="heroSleep">--</strong><small>最新の睡眠</small></div></div></div>
+</section>
+<div class="section-head"><h2>STATUS OVERVIEW</h2><span id="todayDate"></span></div>
+<section class="metrics">
+ <div class="metric"><div class="label">TODAY STUDY</div><strong class="cyan" id="metricStudy">0分</strong><small>今日の勉強時間</small></div>
+ <div class="metric"><div class="label">LATEST SLEEP</div><strong class="green" id="metricSleep">--</strong><small>最新の睡眠記録</small></div>
+ <div class="metric"><div class="label">TASKS</div><strong class="gold" id="metricTasks">0/0</strong><small>今日の完了タスク</small></div>
+</section>
+<div class="section-head"><h2>ANALYTICS</h2><span>直近7日間</span></div>
+<section class="grid">
+ <div class="panel"><div class="section-head" style="margin:0"><h2>勉強時間</h2><span>STUDY / DAY</span></div><div class="chart" id="studyChart"></div><div class="legend"><i style="background:var(--cyan)"></i>日ごとの勉強時間</div><div class="muted" style="margin-top:10px">7日間の合計 <strong id="weekStudy" class="cyan">0分</strong></div></div>
+ <div class="panel"><div class="section-head" style="margin:0"><h2>睡眠時間</h2><span>SLEEP / DAY</span></div><div class="chart" id="sleepChart"></div><div class="legend"><i style="background:var(--green)"></i>日ごとの睡眠時間</div><div class="muted" style="margin-top:10px">7日間の合計 <strong id="weekSleep" class="green">0時間</strong></div></div>
+ <div class="panel"><div class="section-head" style="margin:0"><h2>教科別の勉強</h2><span>SUBJECTS</span></div><div class="subject-stats" id="subjectStats"></div></div>
+</section>
+<div class="section-head"><h2>FOCUS MODE</h2><span>集中タイマー</span></div>
+<section class="grid">
+ <div class="panel"><div class="eyebrow">DEEP WORK</div><div class="timer" id="timer">00:00:00</div><label for="studySubject">勉強する教科</label><select id="studySubject"><option>数学</option><option>英語</option><option>国語</option><option>理科</option><option>社会</option><option>その他</option></select><div class="actions"><button class="btn primary" id="startTimer">開始</button><button class="btn" id="pauseTimer">一時停止</button><button class="btn" id="resetTimer">リセット</button><button class="btn primary" id="saveTimer">勉強を記録</button></div><p class="small-note" id="timerMessage">集中する準備ができたら開始！</p></div>
+ <div class="panel"><div class="eyebrow">MANUAL LOG</div><h2 style="font-size:16px">勉強時間を記録</h2><label for="manualDate">日付</label><input type="date" id="manualDate"><label for="manualSubject">教科</label><select id="manualSubject"><option>数学</option><option>英語</option><option>国語</option><option>理科</option><option>社会</option><option>その他</option></select><label for="manualMinutes">勉強時間（分）</label><input type="number" id="manualMinutes" min="1" max="1440" placeholder="例：30"><div class="actions"><button class="btn primary" id="addStudy">勉強を追加</button></div></div>
+</section>
+<div class="section-head"><h2>SLEEP LOG</h2><span>睡眠記録</span></div>
+<section class="panel">
+ <div class="grid">
+  <div><label for="sleepDate">日付（寝た日）</label><input type="date" id="sleepDate"></div>
+  <div><label for="bedTime">寝た時間</label><input type="time" id="bedTime" value="23:00"></div>
+  <div><label for="wakeTime">起きた時間</label><input type="time" id="wakeTime" value="07:00"></div>
+  <div style="display:flex;align-items:end"><button class="btn primary" id="saveSleep" style="width:100%">睡眠を記録</button></div>
+ </div>
+ <p class="small-note" id="sleepMessage">日付と時刻を選んで記録しよう。</p>
+</section>
+<div class="section-head"><h2>TASK CONTROL</h2><span>タスク管理</span></div>
+<section class="grid">
+ <div class="panel"><div class="eyebrow">NEW TASK</div><label for="taskName">タスク名</label><input id="taskName" maxlength="100" placeholder="例：英単語を20個覚える"><label for="taskDate">期限</label><input type="date" id="taskDate"><label for="taskSubject">教科</label><select id="taskSubject"><option>その他</option><option>数学</option><option>英語</option><option>国語</option><option>理科</option><option>社会</option></select><div class="actions"><button class="btn primary" id="addTask">タスクを追加</button></div></div>
+ <div class="panel"><div class="section-head" style="margin:0"><h2>タスクリスト</h2><span>CHECKLIST</span></div><div class="task-list" id="taskList"></div></div>
+</section>
+<div class="section-head"><h2>WEEKLY TARGET</h2><span>週間目標</span></div>
+<section class="panel">
+ <label for="weeklyGoal">1週間の勉強目標（分）</label><input type="number" id="weeklyGoal" min="30" max="10080" step="30" value="300">
+ <div class="actions"><button class="btn primary" id="saveGoal">目標を保存</button></div>
+ <div class="muted" style="margin-top:13px" id="goalSummary">0分 / 300分</div><div class="progress-track"><div class="progress-fill" id="goalProgress" style="width:0%"></div></div><p class="small-note" id="goalHint">目標まであと300分</p>
+</section>
+<div class="section-head"><h2>NEXOR ASSISTANT</h2><span>LOCAL ADVISOR</span></div>
+<section class="panel">
+ <div class="assistant-output" id="assistantOutput">相棒、今日の作戦を立てよう。</div>
+ <div class="quick-prompts"><button class="btn primary" data-prompt="plan">今日の勉強プラン</button><button class="btn" data-prompt="review">週間レビュー</button><button class="btn" data-prompt="tasks">タスク確認</button><button class="btn" data-prompt="cheer">応援メッセージ</button></div>
+ <p class="small-note">これは記録データを使うローカル簡易アシスタントだよ。インターネット上のAIに接続しているわけではないよ。</p>
+</section>
+<div class="section-head"><h2>RECORD ARCHIVE</h2><span>記録の検索・削除</span></div>
+<section class="grid">
+ <div class="panel"><div class="section-head" style="margin:0"><h2>勉強記録</h2><span>STUDY LOG</span></div><label for="recordSearch">日付・教科で検索</label><input id="recordSearch" placeholder="例：英語、2026-10-20"><div class="record-list" id="studyRecords"></div></div>
+ <div class="panel"><div class="section-head" style="margin:0"><h2>睡眠記録</h2><span>SLEEP LOG</span></div><div class="record-list" id="sleepRecords"></div></div>
+</section>
+<div class="section-head"><h2>DATA MANAGEMENT</h2><span>バックアップ</span></div>
+<section class="panel">
+ <p class="muted">記録はこのブラウザ内に保存されるよ。機種やブラウザを変えると自動では同期されないので、バックアップを使ってね。</p>
+ <div class="actions"><button class="btn primary" id="exportData">バックアップを書き出す</button><button class="btn" id="importButton">バックアップを読み込む</button><button class="btn danger" id="clearData">全記録を削除</button><input type="file" id="importFile" accept="application/json,.json" class="hidden"></div><p class="small-note" id="dataMessage">大切な記録は定期的にバックアップしてね。</p>
+</section>
+<footer>NEXOR LIFE CONTROL // PERSONAL SYSTEM V4.0</footer>
 </main>
-<footer>NEXOR PERSONAL SYSTEM // DESIGNED FOR DAILY PROGRESS</footer>
-
 <script>
-(() => {
+(()=>{
 "use strict";
-const KEY = "nexor_life_control_v2";
-const subjects = ["英語","数学","国語","理科","社会","学校課題","その他"];
-const $ = id => document.getElementById(id);
-const today = () => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-};
-const shiftDate = (date, offset) => {
-  const d = new Date(date+"T12:00:00");
-  d.setDate(d.getDate()+offset);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-};
-const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-const fresh = () => ({study:[],sleep:[],tasks:[]});
-let data = fresh();
-try {
-  const raw = localStorage.getItem(KEY);
-  if(raw) {
-    const parsed = JSON.parse(raw);
-    if(parsed && Array.isArray(parsed.study) && Array.isArray(parsed.sleep) && Array.isArray(parsed.tasks)) data = parsed;
-  }
-} catch(e) { console.warn("NEXOR data load:",e); }
-function save(){
-  try { localStorage.setItem(KEY,JSON.stringify(data)); }
-  catch(e) { alert("保存できなかったよ。ブラウザの空き容量を確認してね。"); }
-}
-function safeText(value){return String(value ?? "");}
-function fmtMinutes(n){
-  n=Math.max(0,Math.round(Number(n)||0));
-  const h=Math.floor(n/60),m=n%60;
-  return h ? `${h}時間${m}分` : `${m}分`;
-}
-function fmtClock(sec){
-  sec=Math.max(0,Math.floor(sec));
-  return [Math.floor(sec/3600),Math.floor(sec%3600/60),sec%60].map(v=>String(v).padStart(2,"0")).join(":");
-}
-function make(tag,cls,text){
-  const el=document.createElement(tag);
-  if(cls)el.className=cls;
-  if(text!==undefined)el.textContent=safeText(text);
-  return el;
-}
-function clear(el){el.replaceChildren();}
-function empty(el,msg){clear(el);el.append(make("div","empty",msg));}
-function studyFor(date){return data.study.filter(x=>x.date===date);}
-function minutesFor(date){return studyFor(date).reduce((s,x)=>s+(Number(x.minutes)||0),0);}
-function sleepFor(date){return data.sleep.filter(x=>x.date===date).sort((a,b)=>b.created-a.created)[0];}
-function latestSleep(){return [...data.sleep].sort((a,b)=>b.created-a.created)[0];}
-function dayLabel(date){return ["日","月","火","水","木","金","土"][new Date(date+"T12:00:00").getDay()];}
-function createRecord(container,title,sub,tag,onDelete){
-  const row=make("div","record");
-  const main=make("div","record-main");
-  main.append(make("div","record-title",title),make("div","record-sub",sub));
-  row.append(main);
-  if(tag)row.append(make("span","pill",tag));
-  if(onDelete){
-    const b=make("button","btn danger","削除");
-    b.type="button";b.addEventListener("click",onDelete);row.append(b);
-  }
-  container.append(row);
-}
-function renderChart(container,values,color,unit,maxValue){
-  clear(container);
-  values.forEach(item=>{
-    const col=make("div","bar-day");
-    col.append(make("div","bar-value",item.value ? (item.value>=60 ? (item.value/60).toFixed(1)+"h" : item.value+"m") : "—"));
-    const track=make("div","bar-track");
-    const fill=make("div","bar-fill");
-    fill.style.height=Math.min(100,item.value/maxValue*100)+"%";
-    fill.style.background=`linear-gradient(0deg,${color}88,${color})`;
-    track.append(fill);
-    col.append(track,make("small","",item.label));
-    container.append(col);
-  });
-}
+const $=id=>document.getElementById(id);
+const subjects=["数学","英語","国語","理科","社会","その他"];
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const shiftDate=(date,n)=>{const d=new Date(date+"T12:00:00");d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const dayLabel=date=>new Date(date+"T12:00:00").toLocaleDateString("ja-JP",{weekday:"short"});
+const uid=()=>`${Date.now()}-${Math.random().toString(36).slice(2,9)}`;
+const fmtMinutes=n=>{n=Math.max(0,Math.round(Number(n)||0));const h=Math.floor(n/60),m=n%60;return h?`${h}時間${m}分`:`${m}分`};
+const fmtClock=s=>{s=Math.max(0,Math.floor(s));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,"0")).join(":")};
+const fresh=()=>({study:[],sleep:[],tasks:[],weeklyGoal:300});
+const STORAGE_KEY="nexor_life_control_v2";
+let data=fresh();
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");if(saved&&typeof saved==="object")data={...fresh(),...saved};}catch(e){console.warn("保存データを読み込めませんでした",e)}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){alert("保存できなかったよ。ブラウザの空き容量や設定を確認してね。")}}
+function make(tag,cls="",text=""){const el=document.createElement(tag);if(cls)el.className=cls;if(text!=="")el.textContent=text;return el}
+function clear(el){el.replaceChildren()}
+function empty(el,text){el.append(make("div","empty",text))}
+function minutesFor(date){return data.study.filter(x=>x.date===date).reduce((s,x)=>s+(Number(x.minutes)||0),0)}
+function sleepFor(date){return [...data.sleep].filter(x=>x.date===date).sort((a,b)=>(b.created||0)-(a.created||0))[0]}
+function latestSleep(){return [...data.sleep].sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.created||0)-(a.created||0))[0]}
+function createRecord(container,title,sub,id,onDelete,tag=""){const row=make("div","record"),main=make("div","record-main");main.append(make("div","record-title",title),make("div","record-sub",sub));row.append(main);if(tag)row.append(make("span","pill",tag));if(onDelete){const b=make("button","btn danger","削除");b.addEventListener("click",onDelete);row.append(b)}container.append(row)}
+function renderChart(container,values,color,max){clear(container);values.forEach(x=>{const col=make("div","bar-day");col.append(make("div","bar-value",x.value?x.value>=60?(x.value/60).toFixed(1)+"h":x.value+"m":"—"));const track=make("div","bar-track"),fill=make("div","bar-fill");fill.style.height=Math.min(100,x.value/max*100)+"%";fill.style.background=`linear-gradient(0deg,${color}88,${color})`;track.append(fill);col.append(track,make("small","",x.label));container.append(col)})}
+function weeklyDates(){return Array.from({length:7},(_,i)=>shiftDate(today(),i-6))}
 function render(){
-  const t=today();
-  $("todayDate").textContent=t;
-  $("todayText").textContent=new Date().toLocaleDateString("ja-JP",{month:"long",day:"numeric",weekday:"long"})+" の進捗を確認しよう。";
-  $("greeting").textContent=new Date().getHours()<5?"夜遅くまでおつかれ、相棒。":new Date().getHours()<11?"おはよう、相棒。":new Date().getHours()<17?"いい調子だ、相棒。":"おかえり、相棒。";
-  const todayStudy=minutesFor(t);
-  const sleep=latestSleep();
-  const todayTasks=data.tasks.filter(x=>x.date===t);
-  const done=todayTasks.filter(x=>x.done).length;
-  $("heroStudy").textContent=fmtMinutes(todayStudy);
-  $("heroSleep").textContent=sleep?Number(sleep.hours).toFixed(1)+"h":"--";
-  $("metricStudy").textContent=fmtMinutes(todayStudy);
-  $("metricSleep").textContent=sleep?Number(sleep.hours).toFixed(1)+"h":"--";
-  $("metricTasks").textContent=done+"/"+todayTasks.length;
-  const readiness=Math.round((todayTasks.length?done/todayTasks.length:0)*70+(todayStudy?30:0));
-  $("heroPercent").textContent=readiness+"%";
-
-  const dates=Array.from({length:7},(_,i)=>shiftDate(t,i-6));
-  const studyVals=dates.map(date=>({label:dayLabel(date),value:minutesFor(date)}));
-  const sleepVals=dates.map(date=>({label:dayLabel(date),value:Math.round((sleepFor(date)?.hours||0)*60)}));
-  const totalStudy=studyVals.reduce((s,x)=>s+x.value,0);
-  const totalSleep=sleepVals.reduce((s,x)=>s+x.value,0);
-  $("weekStudy").textContent=fmtMinutes(totalStudy);
-  $("weekSleep").textContent=(totalSleep/60).toFixed(1)+"時間";
-  renderChart($("studyChart"),studyVals,"#55e4ff", "m",Math.max(60,...studyVals.map(x=>x.value)));
-  renderChart($("sleepChart"),sleepVals,"#62f5c2","m",Math.max(480,...sleepVals.map(x=>x.value)));
-
-  const ss=$("subjectStats");clear(ss);
-  const subjectTotals=subjects.map(subject=>({subject,total:data.study.filter(x=>x.subject===subject).reduce((s,x)=>s+(Number(x.minutes)||0),0)}));
-  const subjectMax=Math.max(1,...subjectTotals.map(x=>x.total));
-  subjectTotals.forEach(x=>{
-    if(!x.total)return;
-    const row=make("div","subject-row");
-    row.append(make("span","",x.subject));
-    const track=make("div","subject-track"),fill=make("div","subject-fill");
-    fill.style.width=(x.total/subjectMax*100)+"%";track.append(fill);
-    row.append(track,make("span","",fmtMinutes(x.total)));
-    ss.append(row);
-  });
-  if(!ss.children.length)empty(ss,"勉強を記録すると教科別に表示されるよ。");
-
-  const taskList=$("taskList");clear(taskList);
-  const sortedTasks=[...data.tasks].sort((a,b)=>a.date.localeCompare(b.date));
-  if(!sortedTasks.length)empty(taskList,"タスクはまだないよ。上から追加しよう。");
-  sortedTasks.forEach(task=>{
-    const row=make("div","task"+(task.done?" done":""));
-    const check=make("input");check.type="checkbox";check.checked=!!task.done;check.setAttribute("aria-label",task.title+"を完了");
-    check.addEventListener("change",()=>{task.done=check.checked;save();render();});
-    const main=make("div","record-main");
-    main.append(make("div","record-title",task.title),make("div","record-sub",task.date+" ・ "+task.subject));
-    const del=make("button","btn danger","削除");
-    del.addEventListener("click",()=>{if(confirm("このタスクを削除する？")){data.tasks=data.tasks.filter(x=>x.id!==task.id);save();render();}});
-    row.append(check,main,del);taskList.append(row);
-  });
-
-  const sr=$("studyRecords");clear(sr);
-  [...data.study].sort((a,b)=>(b.date+b.created).localeCompare(a.date+a.created)).slice(0,12).forEach(x=>{
-    createRecord(sr,x.subject+" · "+fmtMinutes(x.minutes),x.date,x.id,()=>{
-      if(confirm("この勉強記録を削除する？")){data.study=data.study.filter(y=>y.id!==x.id);save();render();}
-    });
-  });
-  if(!sr.children.length)empty(sr,"勉強記録はまだないよ。");
-
-  const sl=$("sleepRecords");clear(sl);
-  [...data.sleep].sort((a,b)=>b.created-a.created).slice(0,12).forEach(x=>{
-    createRecord(sl,Number(x.hours).toFixed(1)+"時間",x.date+" · "+x.bed+"〜"+x.wake,x.id,()=>{
-      if(confirm("この睡眠記録を削除する？")){data.sleep=data.sleep.filter(y=>y.id!==x.id);save();render();}
-    });
-  });
-  if(!sl.children.length)empty(sl,"睡眠記録はまだないよ。");
+ const t=today(),now=new Date();$("todayDate").textContent=t;$("todayText").textContent=now.toLocaleDateString("ja-JP",{month:"long",day:"numeric",weekday:"long"})+" の進捗を確認しよう。";
+ $("greeting").textContent=now.getHours()<5?"夜遅くまでおつかれ、相棒。":now.getHours()<11?"おはよう、相棒。":now.getHours()<17?"いい調子だ、相棒。":"おかえり、相棒。";
+ const mins=minutesFor(t),sl=latestSleep(),tt=data.tasks.filter(x=>x.date===t),done=tt.filter(x=>x.done).length;
+ $("heroStudy").textContent=fmtMinutes(mins);$("heroSleep").textContent=sl?Number(sl.hours).toFixed(1)+"h":"--";$("metricStudy").textContent=fmtMinutes(mins);$("metricSleep").textContent=sl?Number(sl.hours).toFixed(1)+"h":"--";$("metricTasks").textContent=done+"/"+tt.length;
+ $("heroPercent").textContent=Math.round((tt.length?done/tt.length:0)*70+(mins?30:0))+"%";
+ const dates=weeklyDates(),sv=dates.map(date=>({label:dayLabel(date),value:minutesFor(date)})),hv=dates.map(date=>({label:dayLabel(date),value:Math.round((sleepFor(date)?.hours||0)*60)}));
+ const weekM=sv.reduce((s,x)=>s+x.value,0),weekS=hv.reduce((s,x)=>s+x.value,0);$("weekStudy").textContent=fmtMinutes(weekM);$("weekSleep").textContent=(weekS/60).toFixed(1)+"時間";
+ renderChart($("studyChart"),sv,"#59e6ff",Math.max(60,...sv.map(x=>x.value)));renderChart($("sleepChart"),hv,"#65f2c1",Math.max(480,...hv.map(x=>x.value)));
+ const ss=$("subjectStats");clear(ss);const totals=subjects.map(subject=>({subject,total:data.study.filter(x=>x.subject===subject).reduce((s,x)=>s+(Number(x.minutes)||0),0)})),mx=Math.max(1,...totals.map(x=>x.total));
+ totals.forEach(x=>{if(!x.total)return;const row=make("div","subject-row"),track=make("div","subject-track"),fill=make("div","subject-fill");row.append(make("span","",x.subject));fill.style.width=x.total/mx*100+"%";track.append(fill);row.append(track,make("span","",fmtMinutes(x.total)));ss.append(row)});if(!ss.children.length)empty(ss,"勉強を記録すると表示されるよ。");
+ const goal=Math.max(30,Number(data.weeklyGoal)||300),pct=Math.min(100,Math.round(weekM/goal*100));$("weeklyGoal").value=goal;$("goalSummary").textContent=fmtMinutes(weekM)+" / "+fmtMinutes(goal);$("goalProgress").style.width=pct+"%";$("goalHint").textContent=weekM>=goal?"週間目標達成！いい調子だ、相棒。":"目標まであと"+fmtMinutes(goal-weekM);
+ const tl=$("taskList");clear(tl);const tasks=[...data.tasks].sort((a,b)=>a.date.localeCompare(b.date));if(!tasks.length)empty(tl,"タスクはまだないよ。上から追加しよう。");
+ tasks.forEach(task=>{const row=make("div","task"+(task.done?" done":"")),check=make("input");check.type="checkbox";check.checked=!!task.done;check.setAttribute("aria-label",task.title+"を完了");check.addEventListener("change",()=>{task.done=check.checked;save();render()});const m=make("div","record-main");m.append(make("div","record-title",task.title),make("div","record-sub",task.date+" ・ "+task.subject));const del=make("button","btn danger","削除");del.addEventListener("click",()=>{if(confirm("このタスクを削除する？")){data.tasks=data.tasks.filter(x=>x.id!==task.id);save();render()}});row.append(check,m,del);tl.append(row)});
+ const q=$("recordSearch").value.trim().toLowerCase(),sr=$("studyRecords"),lr=$("sleepRecords");clear(sr);clear(lr);
+ const studies=[...data.study].sort((a,b)=>(b.date+(b.created||0)).localeCompare(a.date+(a.created||0))).filter(x=>(x.date+" "+x.subject+" "+x.minutes).toLowerCase().includes(q)).slice(0,15);
+ studies.forEach(x=>createRecord(sr,x.subject+" · "+fmtMinutes(x.minutes),x.date,x.id,()=>{if(confirm("この勉強記録を削除する？")){data.study=data.study.filter(y=>y.id!==x.id);save();render()}}));if(!studies.length)empty(sr,q?"一致する勉強記録はないよ。":"勉強記録はまだないよ。");
+ const sleeps=[...data.sleep].sort((a,b)=>(b.created||0)-(a.created||0)).filter(x=>(x.date+" "+x.bed+" "+x.wake+" 睡眠").toLowerCase().includes(q)).slice(0,15);
+ sleeps.forEach(x=>createRecord(lr,Number(x.hours).toFixed(1)+"時間",x.date+" · "+x.bed+"〜"+x.wake,x.id,()=>{if(confirm("この睡眠記録を削除する？")){data.sleep=data.sleep.filter(y=>y.id!==x.id);save();render()}}));if(!sleeps.length)empty(lr,q?"一致する睡眠記録はないよ。":"睡眠記録はまだないよ。");
 }
-$("manualDate").value=today();
-$("sleepDate").value=today();
-$("taskDate").value=today();
-
-$("addStudy").addEventListener("click",()=>{
-  const minutes=Number($("manualMinutes").value),date=$("manualDate").value,subject=$("manualSubject").value;
-  if(!date||!Number.isInteger(minutes)||minutes<1||minutes>1440){alert("日付と1〜1440分の勉強時間を入力してね。");return;}
-  data.study.push({id:uid(),date,subject,minutes,created:Date.now()});
-  save();$("manualMinutes").value="";render();
-});
-
-$("saveSleep").addEventListener("click",()=>{
-  const date=$("sleepDate").value,bed=$("bedTime").value,wake=$("wakeTime").value;
-  if(!date||!bed||!wake){alert("日付・寝た時間・起きた時間を入力してね。");return;}
-  let start=Number(bed.split(":")[0])*60+Number(bed.split(":")[1]);
-  let end=Number(wake.split(":")[0])*60+Number(wake.split(":")[1]);
-  if(end<=start)end+=1440;
-  const hours=(end-start)/60;
-  if(hours<=0||hours>24){alert("時刻を確認してね。");return;}
-  data.sleep.push({id:uid(),date,bed,wake,hours,created:Date.now()});
-  save();$("sleepMessage").textContent="睡眠記録を保存したよ："+hours.toFixed(1)+"時間";render();
-});
-
-let elapsed=0,startedAt=0,running=false,tick=null;
-function timerSeconds(){return elapsed+(running?Math.floor((Date.now()-startedAt)/1000):0);}
-function showTimer(){$("timer").textContent=fmtClock(timerSeconds());}
-function stopTick(){if(tick!==null){clearInterval(tick);tick=null;}}
-$("startTimer").addEventListener("click",()=>{
-  if(running)return;
-  running=true;startedAt=Date.now();tick=setInterval(showTimer,500);
-  $("timerMessage").textContent="集中モード稼働中。休憩も忘れずに！";
-});
-$("pauseTimer").addEventListener("click",()=>{
-  if(!running)return;
-  elapsed=timerSeconds();running=false;stopTick();showTimer();
-  $("timerMessage").textContent="一時停止中。再開すると続きから計測するよ。";
-});
-$("resetTimer").addEventListener("click",()=>{
-  if(!confirm("タイマーをリセットする？"))return;
-  running=false;elapsed=0;startedAt=0;stopTick();showTimer();
-  $("timerMessage").textContent="タイマーをリセットしたよ。";
-});
-$("saveTimer").addEventListener("click",()=>{
-  const minutes=Math.floor(timerSeconds()/60);
-  if(minutes<1){alert("1分以上勉強してから記録してね。");return;}
-  data.study.push({id:uid(),date:today(),subject:$("studySubject").value,minutes,created:Date.now()});
-  save();running=false;elapsed=0;startedAt=0;stopTick();showTimer();render();
-  $("timerMessage").textContent=minutes+"分の勉強を記録したよ！";
-});
-
-$("addTask").addEventListener("click",()=>{
-  const title=$("taskName").value.trim(),date=$("taskDate").value,subject=$("taskSubject").value;
-  if(!title){alert("タスク名を入力してね。");return;}
-  if(!date){alert("日付を選んでね。");return;}
-  data.tasks.push({id:uid(),title,date,subject,done:false,created:Date.now()});
-  save();$("taskName").value="";render();
-});
-
-$("exportData").addEventListener("click",()=>{
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob),a=make("a");
-  a.href=url;a.download="nexor-backup-"+today()+".json";
-  document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
-  $("dataMessage").textContent="バックアップを書き出したよ。ファイルを大切に保管してね。";
-});
+$("manualDate").value=today();$("sleepDate").value=today();$("taskDate").value=today();
+$("addStudy").addEventListener("click",()=>{const minutes=Number($("manualMinutes").value),date=$("manualDate").value,subject=$("manualSubject").value;if(!date||!Number.isInteger(minutes)||minutes<1||minutes>1440){alert("日付と1〜1440分の勉強時間を入力してね。");return}data.study.push({id:uid(),date,subject,minutes,created:Date.now()});save();$("manualMinutes").value="";render()});
+$("saveSleep").addEventListener("click",()=>{const date=$("sleepDate").value,bed=$("bedTime").value,wake=$("wakeTime").value;if(!date||!bed||!wake){alert("日付・寝た時間・起きた時間を入力してね。");return}let a=Number(bed.slice(0,2))*60+Number(bed.slice(3)),b=Number(wake.slice(0,2))*60+Number(wake.slice(3));if(b<=a)b+=1440;const hours=(b-a)/60;if(hours<=0||hours>24){alert("時刻を確認してね。");return}data.sleep.push({id:uid(),date,bed,wake,hours,created:Date.now()});save();$("sleepMessage").textContent="保存したよ："+hours.toFixed(1)+"時間";render()});
+let elapsed=0,startedAt=0,running=false,tick=null;function timerSeconds(){return elapsed+(running?Math.floor((Date.now()-startedAt)/1000):0)}function showTimer(){$("timer").textContent=fmtClock(timerSeconds())}function stopTick(){if(tick!==null){clearInterval(tick);tick=null}}
+$("startTimer").addEventListener("click",()=>{if(running)return;running=true;startedAt=Date.now();tick=setInterval(showTimer,500);$("timerMessage").textContent="集中モード稼働中。無理せず休憩も取ろう！"});
+$("pauseTimer").addEventListener("click",()=>{if(!running)return;elapsed=timerSeconds();running=false;stopTick();showTimer();$("timerMessage").textContent="一時停止中。再開すると続きから計測するよ。"});
+$("resetTimer").addEventListener("click",()=>{if(!confirm("タイマーをリセットする？"))return;running=false;elapsed=0;startedAt=0;stopTick();showTimer();$("timerMessage").textContent="リセットしたよ。"});
+$("saveTimer").addEventListener("click",()=>{const minutes=Math.floor(timerSeconds()/60);if(minutes<1){alert("1分以上勉強してから記録してね。");return}data.study.push({id:uid(),date:today(),subject:$("studySubject").value,minutes,created:Date.now()});save();running=false;elapsed=0;startedAt=0;stopTick();showTimer();render();$("timerMessage").textContent=minutes+"分の勉強を記録したよ！"});
+$("addTask").addEventListener("click",()=>{const title=$("taskName").value.trim(),date=$("taskDate").value,subject=$("taskSubject").value;if(!title){alert("タスク名を入力してね。");return}if(!date){alert("日付を選んでね。");return}data.tasks.push({id:uid(),title,date,subject,done:false,created:Date.now()});save();$("taskName").value="";render()});
+$("saveGoal").addEventListener("click",()=>{const n=Number($("weeklyGoal").value);if(!Number.isInteger(n)||n<30||n>10080){alert("週間目標は30〜10080分で入力してね。");return}data.weeklyGoal=n;save();render()});
+$("recordSearch").addEventListener("input",render);
+function advisor(mode){const t=today(),week=weeklyDates(),mins=week.reduce((s,d)=>s+minutesFor(d),0),todayM=minutesFor(t),tasks=data.tasks.filter(x=>x.date===t),open=tasks.filter(x=>!x.done),sl=latestSleep();let out="";
+if(mode==="plan"){out=`相棒、今日の勉強は ${fmtMinutes(todayM)}。\n`;if(open.length)out+=`未完了タスクは ${open.length}件。\nまず「${open[0].title}」を15〜25分だけ進めてみよう。\n`;else out+="今日の未完了タスクはないよ。苦手な教科を短時間復習するのもおすすめ。\n";out+="集中したら短い休憩も忘れずに。"}
+else if(mode==="review"){const goal=Number(data.weeklyGoal)||300;out=`直近7日間の勉強：${fmtMinutes(mins)}\n週間目標：${fmtMinutes(goal)}（${Math.min(100,Math.round(mins/goal*100))}%）\n`;out+=mins>=goal?"目標達成！続けられたことを振り返ろう。":"残り "+fmtMinutes(Math.max(0,goal-mins))+" で目標だよ。明日は無理のない範囲で一歩進もう。"}
+else if(mode==="tasks"){out=`今日のタスク：${tasks.length}件\n完了：${tasks.length-open.length}件 / 未完了：${open.length}件\n`;out+=open.length?open.map(x=>"・"+x.title+"（"+x.subject+"）").join("\n"):"今日のタスクは全部完了！必要なら明日の分を追加しよう。"}
+else{out=todayM>0?`今日すでに ${fmtMinutes(todayM)} 進めたね。小さな積み重ねもちゃんと前進だよ、相棒。`:"始める前がいちばん重いこともある。まずは5分だけ、ひとつ始めよう。";if(sl)out+=`\n最新の睡眠記録は ${Number(sl.hours).toFixed(1)}時間。調子に合わせて無理なく進めよう。`}
+$("assistantOutput").textContent=out}
+document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>advisor(b.dataset.prompt)));
+$("exportData").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=make("a");a.href=url;a.download="nexor-backup-"+today()+".json";document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);$("dataMessage").textContent="バックアップを書き出したよ。大切に保管してね。"});
 $("importButton").addEventListener("click",()=>$("importFile").click());
-$("importFile").addEventListener("change",async e=>{
-  const file=e.target.files[0];if(!file)return;
-  try{
-    const imported=JSON.parse(await file.text());
-    if(!imported||!Array.isArray(imported.study)||!Array.isArray(imported.sleep)||!Array.isArray(imported.tasks))throw Error("invalid");
-    if(!confirm("今の記録を読み込んだバックアップの内容に置き換える？"))return;
-    data=imported;save();render();$("dataMessage").textContent="バックアップを読み込んだよ。";
-  }catch(err){alert("このバックアップは読み込めなかったよ。NEXORのJSONファイルか確認してね。");}
-  finally{e.target.value="";}
-});
-$("clearData").addEventListener("click",()=>{
-  if(!confirm("睡眠・勉強・タスクの全記録を削除するよ。本当にいい？"))return;
-  data=fresh();save();render();$("dataMessage").textContent="全データを消去したよ。";
-});
-render();
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const p=JSON.parse(await file.text());if(!p||!Array.isArray(p.study)||!Array.isArray(p.sleep)||!Array.isArray(p.tasks))throw Error("invalid");if(!confirm("今の記録をバックアップの内容に置き換える？"))return;data={...fresh(),...p};save();render();$("dataMessage").textContent="バックアップを読み込んだよ。"}catch(err){alert("読み込めなかったよ。NEXORのJSONバックアップか確認してね。")}finally{e.target.value=""}});
+$("clearData").addEventListener("click",()=>{if(!confirm("睡眠・勉強・タスクの全記録を削除するよ。本当にいい？"))return;data=fresh();save();render();$("dataMessage").textContent="全データを消去したよ。"});
+advisor("plan");render();
 })();
 </script>
 </body>
