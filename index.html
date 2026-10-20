@@ -3,163 +3,240 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#030914">
-<title>NEXOR // COMMAND CENTER</title>
+<title>NEXOR // LIFE CONTROL</title>
 <style>
-:root{color-scheme:dark;--cyan:#58eaff;--line:#35dfff55;--muted:#729ab9}
+:root{--c:#58eaff;--line:#35dfff44;--bg:#030914;--panel:#07192beF;--muted:#83a7c2}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:#dff8ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:radial-gradient(ellipse at 50% 35%,#10365a 0%,transparent 45%),radial-gradient(ellipse at 50% 100%,#071c38,transparent 60%),#020711;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.15;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#54dfff12 4px)}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line);background:#030b17dd;box-shadow:0 4px 30px #00bfff12}
-.brand{font-size:21px;font-weight:800;letter-spacing:5px;color:var(--cyan);text-shadow:0 0 16px #26cfff99}
-.top-status{color:#70ffc5;font-size:10px;letter-spacing:1px}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#57ffc3;box-shadow:0 0 10px #57ffc3;margin-right:6px}
-main{width:min(1250px,100%);padding:22px 15px 35px;margin:auto}
-.eyebrow{text-align:center;color:var(--cyan);font-size:10px;letter-spacing:3px;margin:0 0 20px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
-.panel{position:relative;min-width:0;padding:17px;border:1px solid var(--line);background:linear-gradient(145deg,#0a2036dd,#030b17ed);box-shadow:inset 0 0 25px #168bd811,0 0 18px #00bfff0a;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
-.panel-title{color:var(--cyan);font-size:10px;letter-spacing:2px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
-.metric{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #55dfff18;font-size:12px}
-.metric:last-child{border-bottom:0}
-.value{color:var(--cyan);text-align:right}
-.good{color:#65ffc4}
-.muted{color:var(--muted);font-size:11px;line-height:1.7}
-.core-area{text-align:center;padding:16px 0 22px}
-.core{position:relative;width:154px;height:154px;display:grid;place-items:center;margin:28px auto 30px;border:2px solid var(--cyan);border-radius:50%;background:radial-gradient(circle,#1b719b 0%,#092342 43%,#030b17 72%);box-shadow:0 0 18px #31dfff99,0 0 65px #168bd855,inset 0 0 32px #35dfff55;animation:pulse 3s ease-in-out infinite}
-.core:before,.core:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
-.core:before{inset:-12px;border:1px dashed #58eaffaa;animation:rotate 18s linear infinite}
-.core:after{inset:12px;border:1px solid #58eaff77;box-shadow:inset 0 0 22px #58eaff55}
-.core span{font-size:24px;font-weight:700;letter-spacing:3px;text-shadow:0 0 18px var(--cyan)}
-h1{font-size:24px;margin:0 0 8px;letter-spacing:2px}
-.subtitle{color:var(--cyan);font-size:10px;letter-spacing:2px}
-.visualizer{display:flex;justify-content:center;align-items:center;gap:4px;height:32px;margin:18px 0}
-.visualizer i{display:block;width:3px;height:9px;border-radius:5px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:wave 1s ease-in-out infinite alternate}
-.visualizer i:nth-child(3n){animation-delay:-.7s}
-.visualizer i:nth-child(2n){animation-delay:-.3s}
-.log{padding:12px;min-height:100px;max-height:220px;overflow-y:auto;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.8;background:#020813aa;border:1px solid #35dfff30}
-.log-label{display:block;color:var(--cyan);font-size:9px;letter-spacing:2px;margin-bottom:8px}
-textarea{display:block;width:100%;min-height:76px;resize:vertical;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:4px;background:#020a15;color:white;font:inherit;font-size:13px;outline:none}
-textarea:focus{border-color:var(--cyan)}
-button{cursor:pointer;width:100%;margin-top:9px;padding:12px;color:#03101a;background:linear-gradient(100deg,#38cfff,#8df5ff);border:0;font:inherit;font-size:12px;font-weight:800;letter-spacing:2px}
-button:active{transform:scale(.99)}
-.secondary{color:var(--cyan);background:#0a2036;border:1px solid var(--line)}
-.data-bar{height:4px;background:#15324a;margin-top:8px;overflow:hidden}
-.data-bar span{display:block;height:100%;width:78%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-.data-bar.cpu span{width:34%}
-.data-bar.mem span{width:61%}
-.notice{min-height:18px;color:var(--cyan);font-size:11px;margin-top:9px}
-footer{text-align:center;padding:20px;color:#547b98;font-size:9px;letter-spacing:3px}
-@keyframes rotate{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{filter:brightness(.9)}50%{filter:brightness(1.3)}}
-@keyframes wave{from{height:5px}to{height:27px}}
-@media(min-width:760px){main{padding:30px 24px 45px}.layout{grid-template-columns:minmax(190px,1fr) minmax(260px,1.4fr) minmax(190px,1fr);gap:16px;align-items:stretch}.core-area{padding:25px 0}.core{width:174px;height:174px}.panel{padding:18px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+body{margin:0;background:radial-gradient(ellipse at 50% 10%,#10365a,#030914 65%);color:#e4f9ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background:repeating-linear-gradient(0deg,transparent 0 4px,#58eaff22 5px);z-index:2}
+header{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);background:#030914eF;position:sticky;top:0;z-index:3}
+.brand{font-size:21px;font-weight:900;letter-spacing:5px;color:var(--c);text-shadow:0 0 16px #26cfff}
+.status{font-size:10px;color:#65ffc4;letter-spacing:1px}
+main{width:min(900px,100%);padding:20px 14px 40px;margin:auto}
+.hero{text-align:center;padding:15px 0 24px}
+.eyebrow{font-size:10px;color:var(--c);letter-spacing:3px}
+h1{font-size:26px;letter-spacing:3px;margin:12px 0 5px}
+.sub{font-size:11px;color:var(--muted)}
+.core{width:95px;height:95px;border:2px solid var(--c);border-radius:50%;margin:22px auto;display:grid;place-items:center;color:var(--c);font-weight:900;letter-spacing:2px;background:radial-gradient(circle,#165477,#030914 72%);box-shadow:0 0 25px #35dfff77,inset 0 0 22px #35dfff55;animation:pulse 3s infinite}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:15px}
+nav button{margin:0;padding:12px 3px;font-size:10px;letter-spacing:1px}
+.panel{border:1px solid var(--line);background:linear-gradient(145deg,#0b2239eF,#030b17f5);padding:17px;margin-bottom:14px;box-shadow:inset 0 0 24px #168bd811;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.pt{color:var(--c);font-size:11px;letter-spacing:2px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:11px;color:var(--muted);display:block;margin-bottom:6px}
+input,select{width:100%;min-width:0;background:#020a15;color:#e4f9ff;border:1px solid var(--line);border-radius:4px;padding:12px;font:inherit;font-size:14px}
+button{width:100%;margin-top:10px;padding:13px 9px;border:1px solid var(--c);background:linear-gradient(100deg,#38cfff,#8df5ff);color:#03101a;font-size:11px;font-weight:900;letter-spacing:1px;border-radius:3px;cursor:pointer}
+button.secondary{background:#0a2036;color:var(--c)}
+button.danger{background:#291521;color:#ff9ba9;border-color:#ff6e8c}
+.big{font-size:36px;text-align:center;color:var(--c);font-weight:800;letter-spacing:2px;margin:16px 0}
+.center{text-align:center}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{padding:14px 8px;text-align:center;border:1px solid var(--line);background:#061426}
+.stat strong{display:block;color:var(--c);font-size:22px;margin-bottom:5px}
+.stat span{font-size:10px;color:var(--muted)}
+.note{font-size:11px;color:var(--muted);line-height:1.8}
+.message{min-height:20px;color:#65ffc4;font-size:11px;margin-top:9px}
+.entry{padding:12px 0;border-bottom:1px solid #55dfff22;font-size:12px;line-height:1.8;overflow-wrap:anywhere}
+.entry:last-child{border-bottom:0}
+.entry strong{color:var(--c)}
+.hidden{display:none!important}
+footer{text-align:center;color:#547b98;font-size:9px;letter-spacing:2px;padding:20px}
+@keyframes pulse{50%{filter:brightness(1.5);box-shadow:0 0 38px #35dfffaa}}
+@media(min-width:650px){.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cols .panel{margin-bottom:0}.panel{padding:20px}main{padding-top:28px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">NEXOR</div>
-  <div class="top-status"><span class="dot"></span>SYSTEM ONLINE</div>
-</header>
+<header><div class="brand">NEXOR</div><div class="status">● LIFE SYSTEM ONLINE</div></header>
 <main>
-  <p class="eyebrow">NEXOR INTELLIGENCE // COMMAND CENTER</p>
-  <div class="layout">
-    <section class="panel">
-      <div class="panel-title">01 // SYSTEM STATUS</div>
-      <div class="metric"><span>CORE SYSTEM</span><span class="value good">ONLINE</span></div>
-      <div class="metric"><span>INTERFACE</span><span class="value good">ACTIVE</span></div>
-      <div class="metric"><span>AI CONNECTION</span><span class="value">STANDBY</span></div>
-      <div class="metric"><span>SECURITY</span><span class="value good">LOCAL UI</span></div>
-      <div class="metric"><span>VERSION</span><span class="value">NXR-02</span></div>
-      <div class="panel-title" style="margin-top:24px">02 // DATA MONITOR</div>
-      <div class="muted">PROCESSING LOAD</div>
-      <div class="data-bar"><span></span></div>
-      <div class="muted" style="margin-top:14px">CPU SIMULATION</div>
-      <div class="data-bar cpu"><span></span></div>
-      <div class="muted" style="margin-top:14px">MEMORY SIMULATION</div>
-      <div class="data-bar mem"><span></span></div>
-      <p class="muted">※ メーターは演出用。実際の端末状態ではないよ。</p>
-    </section>
+<section class="hero">
+<div class="eyebrow">PERSONAL LIFE MANAGEMENT SYSTEM</div>
+<div class="core">NXR</div>
+<h1>LIFE CONTROL</h1>
+<div class="sub" id="today"></div>
+<p class="note">睡眠も、学習も。自分のペースを記録しよう。</p>
+</section>
 
-    <section class="panel core-area">
-      <div class="panel-title">CENTRAL INTELLIGENCE</div>
-      <p class="subtitle">REACTOR CORE // 001</p>
-      <div class="core"><span>NEXOR</span></div>
-      <h1>おかえり。</h1>
-      <div class="subtitle">YOUR PERSONAL AI INTERFACE</div>
-      <div class="visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="log" id="chat" role="log" aria-live="polite"><span class="log-label">LIVE COMMUNICATION</span>NEXOR：システム起動完了。
-司令室へようこそ。
-AIエンジンは未接続です。</div>
-      <form id="messageForm">
-        <textarea id="message" maxlength="2000" placeholder="NEXORに指示を入力..." aria-label="メッセージ"></textarea>
-        <button type="submit">TRANSMIT // 送信</button>
-        <button type="button" class="secondary" id="clearBtn">CLEAR LOG // ログ消去</button>
-      </form>
-      <p class="notice" id="notice" role="status"></p>
-    </section>
+<nav>
+<button onclick="showSection('sleep')">01 SLEEP</button>
+<button onclick="showSection('study')">02 STUDY</button>
+<button onclick="showSection('records')">03 RECORDS</button>
+</nav>
 
-    <section class="panel">
-      <div class="panel-title">03 // QUICK ACCESS</div>
-      <div class="metric"><span>VOICE MODULE</span><span class="value">STANDBY</span></div>
-      <p class="muted">音声機能は今後のアップデートで追加する予定。</p>
-      <div class="metric"><span>NETWORK</span><span class="value good">INTERFACE READY</span></div>
-      <p class="muted">この表示は画面の状態であり、外部ネットワークの実測結果ではないよ。</p>
-      <div class="panel-title" style="margin-top:24px">04 // MISSION CONTROL</div>
-      <p class="muted">NEXOR COMMAND CENTER</p>
-      <button type="button" id="statusBtn">RUN DIAGNOSTICS</button>
-      <p class="notice" id="diagnostic" role="status"></p>
-      <div class="metric"><span>BUILD</span><span class="value">2026.01</span></div>
-      <div class="metric"><span>MODE</span><span class="value">HOLOGRAPHIC UI</span></div>
-    </section>
-  </div>
+<section id="sleep" class="panel">
+<div class="pt">01 // SLEEP CONTROL</div>
+<div class="grid">
+<div><label for="bed">就寝した時刻</label><input id="bed" type="time" value="23:00"></div>
+<div><label for="wake">起床した時刻</label><input id="wake" type="time" value="07:00"></div>
+</div>
+<div class="center">
+<p class="note">睡眠時間の計算結果</p>
+<div class="big" id="sleepPreview">8時間00分</div>
+</div>
+<label for="sleepDate">記録する日（起床日）</label>
+<input id="sleepDate" type="date">
+<button id="saveSleep">SAVE SLEEP // 睡眠を記録</button>
+<div class="message" id="sleepMsg" role="status"></div>
+<p class="note">十分な睡眠を優先しよう。中高生は一般に8〜10時間が目安だよ。</p>
+</section>
+
+<section id="study" class="panel hidden">
+<div class="pt">02 // STUDY CONTROL</div>
+<label for="subject">学習する教科</label>
+<select id="subject">
+<option>英語</option><option>数学</option><option>国語</option><option>理科</option><option>社会</option><option>その他</option>
+</select>
+<div class="big" id="timer">00:00:00</div>
+<div class="center sub" id="timerState">STANDBY // 待機中</div>
+<div class="grid">
+<button id="startTimer">START</button>
+<button class="secondary" id="pauseTimer">PAUSE</button>
+</div>
+<button class="secondary" id="resetTimer">RESET TIMER</button>
+<button id="saveStudy">SAVE SESSION // 学習時間を記録</button>
+<div class="message" id="studyMsg" role="status"></div>
+<p class="note">タイマーはこのページを開いている間に計測するよ。途中でページを閉じる前に保存してね。</p>
+</section>
+
+<section id="records" class="panel hidden">
+<div class="pt">03 // DAILY SYNC</div>
+<div class="stats">
+<div class="stat"><strong id="sleepTotal">--</strong><span>最新の睡眠記録</span></div>
+<div class="stat"><strong id="studyTotal">0分</strong><span>今日の学習時間</span></div>
+</div>
+<div class="pt" style="margin-top:22px">SLEEP LOG</div>
+<div id="sleepLogs" class="note">まだ記録がないよ。</div>
+<div class="pt" style="margin-top:22px">STUDY LOG</div>
+<div id="studyLogs" class="note">まだ記録がないよ。</div>
+<button class="secondary" id="exportBtn">EXPORT DATA // データを書き出す</button>
+<button class="danger" id="clearData">DELETE ALL // 全記録を削除</button>
+<div class="message" id="recordMsg" role="status"></div>
+<p class="note">データはこのブラウザ内に保存されるよ。書き出したデータは大切に保管してね。</p>
+</section>
 </main>
-<footer>NEXOR · PERSONAL COMMAND CENTER · NXR-02</footer>
-<script>
-const form=document.getElementById("messageForm");
-const input=document.getElementById("message");
-const chat=document.getElementById("chat");
-const notice=document.getElementById("notice");
-const clearBtn=document.getElementById("clearBtn");
-const statusBtn=document.getElementById("statusBtn");
-const diagnostic=document.getElementById("diagnostic");
+<footer>NEXOR // LIFE CONTROL // NXR-03</footer>
 
-function addLine(label,text){
-  const br=document.createElement("br");
-  const line=document.createElement("div");
-  line.style.marginTop="8px";
-  const name=document.createElement("strong");
-  name.style.color="#58eaff";
-  name.textContent=label;
-  line.append(name,document.createTextNode(text));
-  chat.append(br,line);
-  chat.scrollTop=chat.scrollHeight;
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const KEY="nexor_life_control_v1";
+let data={sleep:[],study:[]};
+let elapsed=0,startedAt=null,interval=null;
+try{
+ const raw=localStorage.getItem(KEY);
+ if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.sleep)&&Array.isArray(parsed.study))data=parsed;}
+}catch(e){}
+function persist(){
+ try{localStorage.setItem(KEY,JSON.stringify(data));return true;}
+ catch(e){alert("保存できなかったよ。ブラウザの空き容量や設定を確認してね。");return false;}
 }
-form.addEventListener("submit",function(event){
-  event.preventDefault();
-  const value=input.value.trim();
-  if(!value){
-    notice.textContent="メッセージを入力してね。";
-    input.focus();
-    return;
-  }
-  addLine("YOU // "," "+value);
-  addLine("NEXOR // ","メッセージを受け取ったよ。AI機能はまだ未接続だよ。");
-  input.value="";
-  notice.textContent="メッセージを受信しました。";
+function localDate(d=new Date()){
+ const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+ return `${y}-${m}-${day}`;
+}
+function fmtMinutes(n){return `${Math.floor(n/60)}時間${String(n%60).padStart(2,"0")}分`;}
+function fmtClock(s){
+ s=Math.max(0,Math.floor(s));
+ return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,"0")).join(":");
+}
+function duration(){
+ const b=$("bed").value,w=$("wake").value;
+ if(!b||!w)return null;
+ const [bh,bm]=b.split(":").map(Number),[wh,wm]=w.split(":").map(Number);
+ let mins=(wh*60+wm)-(bh*60+bm);
+ if(mins<=0)mins+=1440;
+ if(mins<=0||mins>1440)return null;
+ return mins;
+}
+function preview(){
+ const n=duration();
+ $("sleepPreview").textContent=n===null?"--":fmtMinutes(n);
+}
+function showSection(id){
+ ["sleep","study","records"].forEach(s=>$(s).classList.toggle("hidden",s!==id));
+ if(id==="records")render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+window.showSection=showSection;
+$("today").textContent=new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"long"});
+$("sleepDate").value=localDate();
+$("bed").addEventListener("change",preview);
+$("wake").addEventListener("change",preview);
+preview();
+
+$("saveSleep").addEventListener("click",()=>{
+ const mins=duration(),date=$("sleepDate").value;
+ if(mins===null||!date){$("sleepMsg").textContent="時刻と日付を確認してね。";return;}
+ data.sleep=data.sleep.filter(x=>x.date!==date);
+ data.sleep.unshift({date,bed:$("bed").value,wake:$("wake").value,minutes:mins});
+ data.sleep.sort((a,b)=>b.date.localeCompare(a.date));
+ data.sleep=data.sleep.slice(0,90);
+ if(persist()){$("sleepMsg").textContent=`保存完了：${fmtMinutes(mins)}`;render();}
 });
-clearBtn.addEventListener("click",function(){
-  chat.replaceChildren();
-  const label=document.createElement("span");
-  label.className="log-label";
-  label.textContent="LIVE COMMUNICATION";
-  chat.append(label,document.createTextNode("ログを消去しました。"));
-  notice.textContent="ログをクリアしました。";
+
+function currentElapsed(){return elapsed+(startedAt===null?0:(Date.now()-startedAt)/1000);}
+function updateTimer(){$("timer").textContent=fmtClock(currentElapsed());}
+$("startTimer").addEventListener("click",()=>{
+ if(startedAt===null){startedAt=Date.now();$("timerState").textContent="RECORDING // 計測中";interval=setInterval(updateTimer,250);}
 });
-statusBtn.addEventListener("click",function(){
-  diagnostic.textContent="診断完了：インターフェースは正常に動作中。";
+$("pauseTimer").addEventListener("click",()=>{
+ if(startedAt!==null){elapsed+=(Date.now()-startedAt)/1000;startedAt=null;clearInterval(interval);interval=null;updateTimer();$("timerState").textContent="PAUSED // 一時停止";}
 });
+$("resetTimer").addEventListener("click",()=>{
+ if(interval)clearInterval(interval);
+ interval=null;elapsed=0;startedAt=null;updateTimer();$("timerState").textContent="STANDBY // 待機中";$("studyMsg").textContent="";
+});
+$("saveStudy").addEventListener("click",()=>{
+ const seconds=currentElapsed(),mins=Math.floor(seconds/60);
+ if(mins<1){$("studyMsg").textContent="1分以上計測してから保存してね。";return;}
+ const date=localDate();
+ data.study.unshift({date,subject:$("subject").value,minutes:mins});
+ data.study=data.study.slice(0,300);
+ if(persist()){
+  $("studyMsg").textContent=`保存完了：${mins}分`;
+  if(interval)clearInterval(interval);
+  interval=null;elapsed=0;startedAt=null;updateTimer();$("timerState").textContent="SAVED // 保存済み";render();
+ }
+});
+function render(){
+ const today=localDate();
+ const latest=data.sleep[0];
+ $("sleepTotal").textContent=latest?fmtMinutes(latest.minutes):"--";
+ const total=data.study.filter(x=>x.date===today).reduce((s,x)=>s+x.minutes,0);
+ $("studyTotal").textContent=total>=60?`${Math.floor(total/60)}時間${total%60}分`:`${total}分`;
+ $("sleepLogs").replaceChildren();
+ if(!data.sleep.length)$("sleepLogs").textContent="まだ記録がないよ。";
+ data.sleep.slice(0,14).forEach(x=>{
+  const d=document.createElement("div");d.className="entry";
+  const b=document.createElement("strong");b.textContent=x.date;
+  d.append(b,document.createTextNode(`　${x.bed} → ${x.wake}　${fmtMinutes(x.minutes)}`));
+  $("sleepLogs").append(d);
+ });
+ $("studyLogs").replaceChildren();
+ if(!data.study.length)$("studyLogs").textContent="まだ記録がないよ。";
+ data.study.slice(0,30).forEach(x=>{
+  const d=document.createElement("div");d.className="entry";
+  const b=document.createElement("strong");b.textContent=x.date;
+  d.append(b,document.createTextNode(`　${x.subject}　${x.minutes}分`));
+  $("studyLogs").append(d);
+ });
+}
+$("exportBtn").addEventListener("click",()=>{
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="nexor-life-data.json";a.click();URL.revokeObjectURL(url);
+ $("recordMsg").textContent="データを書き出したよ。ファイルを保管してね。";
+});
+$("clearData").addEventListener("click",()=>{
+ if(!confirm("睡眠・学習の全記録を削除する？この操作は取り消せないよ。"))return;
+ data={sleep:[],study:[]};
+ if(persist()){$("recordMsg").textContent="全記録を削除しました。";render();}
+});
+render();
+})();
 </script>
 </body>
 </html>
